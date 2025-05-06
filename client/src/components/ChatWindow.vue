@@ -15,32 +15,35 @@
         v-for="(message, index) in chat.messages"
         :key="index"
         :class="[ 
-          'px-4 py-3 rounded-xl max-w-[50%]', 
-          message.fromMe 
-            ? 'self-end bg-blue-100 text-right' 
-            : 'self-start bg-gray-100 text-left'
+          'flex items-end',
+          message.from === 1 ? 'justify-end' : 'justify-start'
         ]"
-        class="flex items-center space-x-2"
       >
-        <!-- Avatar for received messages (left) -->
+        <!-- Left side avatar for others -->
         <img
-          v-if="!message.fromMe"
-          :src="chat.avatar"
+          v-if="message.from !== 1"
+          :src="chat.participants.find(p => p.id === message.from)?.avatar"
           alt="Avatar"
-          class="w-6 h-6 rounded-full"
+          class="w-6 h-6 rounded-full mr-2"
         />
 
-        <!-- Message Text -->
-        <div :class="message.fromMe ? 'ml-2' : 'mr-2'">
-          {{ message.text }}
+        <!-- Message Bubble -->
+        <div
+          :class="[
+            'px-4 py-3 rounded-xl max-w-[70%]',
+            message.from === 1 ? 'bg-blue-100 text-right' : 'bg-gray-100 text-left'
+          ]"
+        >
+          <div class="text-sm">{{ message.text }}</div>
+          <div class="text-xs text-gray-500 mt-1">{{ message.formattedTime }}</div>
         </div>
 
-        <!-- Avatar for sent messages (right) -->
+        <!-- Right side avatar for self -->
         <img
-          v-if="message.fromMe"
-          :src="chat.avatar"
+          v-if="message.from === 1"
+          :src="chat.participants.find(p => p.id === message.from)?.avatar"
           alt="Avatar"
-          class="w-6 h-6 rounded-full"
+          class="w-6 h-6 rounded-full ml-2"
         />
       </div>
     </div>
