@@ -6,31 +6,36 @@ import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons'
 </script>
 
 <template>
-  <div class="min-h-screen bg-blue-100 flex flex-col">
-    <div class="flex-grow flex justify-center">
-      <div class="w-full bg-white p-1 shadow-md flex flex-col" style="max-height: 100vh;">
-        <!-- Header -->
-        <header class="bg-blue-600 text-white p-6 flex justify-between items-center rounded-b-2xl">
-          <div class="flex items-center">
-            <!-- <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="..." />
-            </svg> -->
-            <h1 class="font-medium text-xl">Chat App</h1>
-          </div>
-          <div class="flex items-center gap-2">
-            <div class="flex items-center gap-2">
-              <button>
-                <FontAwesomeIcon :icon="faSearch" class="w-5 h-5 text-4xl px-2" />
-              </button>
-              <button>
-                <FontAwesomeIcon :icon="faPlus" class="w-5 h-5 text-4xl px-2" />
-              </button>
-            </div>
-          </div>
-        </header>
+  <div class="min-h-screen bg-white flex flex-col">
+    <!-- Fixed Header -->
+    <header class="bg-blue-600 text-white p-10 flex justify-between items-center fixed w-full top-0 z-50 h-16 rounded-b-2xl md:rounded-none shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] mb-4">
+      <div class="flex items-center">
+        <h1 class="font-medium text-xl">Chat App</h1>
+      </div>
+      <div class="flex items-center gap-2">
+        <button>
+          <FontAwesomeIcon :icon="faSearch" class="text-2xl w-10 h-10" />
+        </button>
+        <button>
+          <FontAwesomeIcon :icon="faPlus" class="text-2xl w-10 h-10" />
+        </button>
+      </div>
+    </header>
 
-        <!-- Chat List -->
-        <main class="divide-y overflow-y-auto flex-grow p-1">
+    <div class="flex flex-1 pt-16 md:shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)]"> <!-- Padding top for header -->
+      <!-- Fixed Desktop Sidebar -->
+      <div class="hidden md:flex flex-col w-24 bg-gray-100 fixed left-0 top-16 bottom-0 z-40 shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)]">
+        <div class="flex flex-col items-center py-4 space-y-8">
+          <NavIcon label="Chats" active />
+          <NavIcon label="Groups" />
+          <NavIcon label="Profile" />
+          <NavIcon label="More" />
+        </div>
+      </div>
+
+      <!-- Scrollable Content -->
+      <main class="flex-1 md:ml-24 p-2"> <!-- Margin for sidebar -->
+        <div class="divide-y overflow-y-auto h-[calc(100vh-4rem)]"> <!-- Full height minus header -->
           <ChatItem
             name="Sarah Johnson"
             message="Hey, are we still meeting tomorrow at the coffee shop?"
@@ -115,19 +120,16 @@ import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons'
             unread="0"
             avatar="https://randomuser.me/api/portraits/men/7.jpg"
           />
-        </main>
+        </div>
+      </main>
 
-        <!-- Bottom Nav -->
-        <footer class="bg-white flex justify-around py-2 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1),0_-2px_4px_-1px_rgba(0,0,0,0.06)] rounded-t-2xl">
-          <NavIcon label="Chats" active />
-          <NavIcon label="Groups" />
-          <NavIcon label="Profile" />
-          <NavIcon label="More" />
-        </footer>
-      </div>
+      <!-- Fixed Mobile Bottom Nav -->
+      <footer class="md:hidden bg-white flex justify-around py-2 fixed bottom-0 w-full z-50 rounded-t-2xl md:rounded-none shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+        <NavIcon label="Chats" active />
+        <NavIcon label="Groups" />
+        <NavIcon label="Profile" />
+        <NavIcon label="More" />
+      </footer>
     </div>
   </div>
 </template>
-
-<style scoped>
-</style>
