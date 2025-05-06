@@ -1,36 +1,29 @@
 <template>
-    <div class="flex items-center px-4 py-3 hover:bg-gray-50 cursor-pointer">
-      <img :src="avatar" alt="Avatar" class="w-12 h-12 rounded-full mr-4" />
-      <div class="flex-1 p-2">
-        <div class="flex justify-between items-center pb-1">
-          <h2 class="font-semibold text-base">{{ name }}</h2>
-          <span class="text-ms text-gray-500">{{ time || date }}</span>
-        </div>
-        <div class="flex justify-between items-center">
-          <p class="text-ms text-gray-600 truncate w-[200px]">{{ message }}</p>
-          <span 
-            v-if="unread > 0" 
-            class="text-xs bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
-          >
-            {{ unread }}
-          </span>
-          <!-- Empty span to maintain layout when no unread messages -->
-          <span v-else class="w-6 h-6"></span>
-        </div> 
+  <div class="flex items-center gap-4 p-4 hover:bg-gray-100 cursor-pointer">
+    <img :src="avatar" alt="avatar" class="w-12 h-12 rounded-full" />
+    <div class="flex-1">
+      <div class="flex justify-between">
+        <span class="font-semibold">{{ name }}</span>
+        <span class="text-xs text-gray-500">{{ time }}</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-sm text-gray-700 truncate w-full">
+          {{ lastMessage?.text || 'No messages yet' }}
+        </span>
+        <span v-if="unread > 0" class="bg-blue-500 text-white text-xs rounded-full px-2 ml-2">
+          {{ unread }}
+        </span>
       </div>
     </div>
-  </template>
-  
-  <script setup>
-  defineProps({
-    name: String,
-    message: String,
-    time: String,
-    date: String,
-    unread: {
-      type: Number,
-      default: 0
-    },
-    avatar: String
-  })
-  </script>
+  </div>
+</template>
+
+<script setup>
+defineProps({
+  name: String,
+  avatar: String,
+  time: String,
+  unread: Number,
+  lastMessage: Object
+})
+</script>

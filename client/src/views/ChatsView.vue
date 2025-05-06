@@ -24,101 +24,137 @@ onUnmounted(() => {
 const chats = [
   {
     name: "Sarah Johnson",
-    message: "Hey, are we still meeting tomorrow at the coffee shop?",
     time: "09:15",
     unread: 2,
     avatar: "https://randomuser.me/api/portraits/women/1.jpg",
     messages: [
-      { text: "Hey, are we still meeting tomorrow at the coffee shop?", fromMe: false }
+      { text: "Hey, are we still meeting tomorrow at the coffee shop?", read: false, fromMe: false },
+      { text: "I’ll be there at 10!", read: false, fromMe: true },
+      { text: "Don’t forget the book 📖", read: true, fromMe: false }
     ]
   },
   {
     name: "Tech Support",
-    message: "Your ticket #4567 has been resolved. Please confirm if everything works now.",
     time: "Yesterday",
     unread: 1,
     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-    messages: []
+    messages: [
+      { text: "We’ve received your ticket.", read: true, fromMe: false },
+      { text: "Issue identified, working on it now.", read: true, fromMe: false },
+      { text: "Your ticket #4567 has been resolved. Please confirm if everything works now.", read: false, fromMe: false }
+    ]
   },
   {
     name: "Mom",
-    message: "Don't forget about family dinner this Sunday! 🍗",
     time: "Yesterday",
     unread: 0,
     avatar: "https://randomuser.me/api/portraits/women/2.jpg",
-    messages: []
+    messages: [
+      { text: "Don't forget about family dinner this Sunday! 🍗", read: true, fromMe: false },
+      { text: "Bringing your favorite pie!", read: true, fromMe: false },
+      { text: "Call me later ❤️", read: true, fromMe: false }
+    ]
   },
   {
     name: "Alex Taylor",
-    message: "Just sent you the project files. Let me know what you think!",
     time: "11/05",
     unread: 3,
     avatar: "https://randomuser.me/api/portraits/men/2.jpg",
-    messages: []
+    messages: [
+      { text: "Just sent you the project files.", read: false, fromMe: false },
+      { text: "Let me know what you think!", read: false, fromMe: false },
+      { text: "Also check the updated timeline.", read: false, fromMe: false }
+    ]
   },
   {
     name: "Work Group",
-    message: "Meeting moved to 3pm | Jenny: I'll be late | Mike: Got it",
     time: "10/05",
     unread: 12,
     avatar: "https://randomuser.me/api/portraits/men/3.jpg",
-    messages: []
+    messages: [
+      { text: "Meeting moved to 3pm", read: false, fromMe: false },
+      { text: "Jenny: I'll be late", read: false, fromMe: false },
+      { text: "Mike: Got it", read: false, fromMe: false },
+      { text: "I'll update the notes later.", read: true, fromMe: true }
+    ]
   },
   {
     name: "James Wilson",
-    message: "The design mockups look great! Just a few small changes needed...",
     time: "08/05",
     unread: 0,
     avatar: "https://randomuser.me/api/portraits/men/4.jpg",
-    messages: []
+    messages: [
+      { text: "The design mockups look great!", read: true, fromMe: false },
+      { text: "Just a few small changes needed...", read: true, fromMe: false },
+      { text: "Will send notes shortly.", read: true, fromMe: false }
+    ]
   },
   {
     name: "Emma Davis",
-    message: "Thanks for the birthday wishes! 🎉",
     time: "05/05",
     unread: 0,
     avatar: "https://randomuser.me/api/portraits/women/3.jpg",
-    messages: []
+    messages: [
+      { text: "Thanks for the birthday wishes! 🎉", read: true, fromMe: false },
+      { text: "It was such a fun day!", read: true, fromMe: false },
+      { text: "Let's catch up soon.", read: true, fromMe: false }
+    ]
   },
   {
     name: "Delivery",
-    message: "Your package #12345 has been delivered",
     time: "03/05",
     unread: 0,
     avatar: "https://randomuser.me/api/portraits/men/5.jpg",
-    messages: []
+    messages: [
+      { text: "Your package #12345 has been shipped.", read: true, fromMe: false },
+      { text: "Out for delivery now.", read: true, fromMe: false },
+      { text: "Your package #12345 has been delivered", read: true, fromMe: false }
+    ]
   },
   {
     name: "David Miller",
-    message: "Let me know when you're free for a call about the new project",
     time: "01/05",
     unread: 1,
     avatar: "https://randomuser.me/api/portraits/men/6.jpg",
-    messages: []
+    messages: [
+      { text: "Let me know when you're free.", read: true, fromMe: false },
+      { text: "Want to talk about the new project.", read: true, fromMe: false },
+      { text: "Ping me anytime today.", read: false, fromMe: false }
+    ]
   },
   {
     name: "Study Group",
-    message: "Final exam on Friday | Maria: I'll bring snacks | Tom: Can someone share notes?",
     time: "28/04",
     unread: 7,
     avatar: "https://randomuser.me/api/portraits/women/4.jpg",
-    messages: []
+    messages: [
+      { text: "Final exam on Friday", read: false, fromMe: false },
+      { text: "Maria: I'll bring snacks", read: false, fromMe: false },
+      { text: "Tom: Can someone share notes?", read: false, fromMe: false },
+      { text: "Sure, I'll upload mine tonight.", read: true, fromMe: true }
+    ]
   },
   {
     name: "Olivia Brown",
-    message: "The restaurant was amazing! We should go there again soon 😊",
     time: "25/04",
     unread: 0,
     avatar: "https://randomuser.me/api/portraits/women/5.jpg",
-    messages: []
+    messages: [
+      { text: "The restaurant was amazing!", read: true, fromMe: false },
+      { text: "We should go there again soon 😊", read: true, fromMe: false },
+      { text: "Next weekend?", read: true, fromMe: false }
+    ]
   },
   {
     name: "Bank Alerts",
-    message: "Reminder: Credit card payment due in 3 days",
     time: "20/04",
     unread: 0,
     avatar: "https://randomuser.me/api/portraits/men/7.jpg",
-    messages: []
+    messages: [
+      { text: "Reminder: Credit card payment due in 3 days", read: true, fromMe: false },
+      { text: "Auto payment enabled", read: true, fromMe: false },
+      { text: "Thank you for your payment", read: true, fromMe: false }
+    ]
   }
 ]
 </script>
@@ -130,7 +166,13 @@ const chats = [
     class="w-full md:w-[30%] overflow-y-auto hide-scrollbar shadow-right"
   >
     <div v-for="chat in chats" :key="chat.name" @click="openChat(chat)">
-      <ChatItem v-bind="chat" />
+      <ChatItem
+        :name="chat.name"
+        :avatar="chat.avatar"
+        :time="chat.time"
+        :unread="chat.unread"
+        :lastMessage="chat.messages.length ? chat.messages[chat.messages.length - 1] : null"
+      />
     </div>
   </div>
 
