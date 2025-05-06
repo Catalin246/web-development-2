@@ -225,4 +225,12 @@ const calculatedChats = computed(() => {
     </div>
     <ChatWindow :chat="selectedChat" />
   </div>
+
+  <!-- Placeholder when no chat is selected (desktop only) -->
+  <div
+    v-else
+    class="hidden md:flex w-[70%] items-center justify-center text-gray-500 text-md"
+  >
+    Select a chat to start messaging
+  </div>
 </template>
