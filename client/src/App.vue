@@ -6,15 +6,15 @@ const route = useRoute()
 </script>
 
 <template>
-  <div class="min-h-screen w-screen flex flex-col bg-white overflow-hidden">
+  <div class="w-screen h-screen overflow-hidden flex flex-col bg-white">
 
-    <!-- Sticky Header -->
-    <header class="sticky top-0 z-10 bg-blue-600 text-white p-4 flex justify-between items-center shadow-md">
+    <!-- Fixed Header -->
+    <header class="fixed top-0 left-0 w-full z-10 bg-blue-600 text-white p-4 flex justify-between items-center shadow-md">
       <h1 class="font-medium text-xl">Chat App</h1>
     </header>
 
-    <!-- Main Layout -->
-    <div class="flex flex-1 h-full">
+    <!-- Main Layout with Scroll -->
+    <div class="flex flex-1 h-full mt-[64px] mb-[56px] overflow-y-auto"> <!-- adjust mt and mb to match header/footer height -->
 
       <!-- Sidebar (10%) -->
       <aside class="hidden md:flex flex-col w-[10%] bg-gray-100 py-4 items-center space-y-6">
@@ -30,8 +30,8 @@ const route = useRoute()
       </main>
     </div>
 
-    <!-- Mobile Bottom Nav -->
-    <footer class="md:hidden sticky bottom-0 bg-white flex justify-around py-2 border-t shadow-md z-10">
+    <!-- Fixed Mobile Bottom Nav -->
+    <footer class="fixed bottom-0 left-0 w-full md:hidden bg-white flex justify-around py-2 border-t shadow-md z-10">
       <NavIcon label="Chats" :active="route.path === '/chats'" />
       <NavIcon label="Groups" :active="route.path === '/groups'" />
       <NavIcon label="Profile" :active="route.path === '/profile'" />
