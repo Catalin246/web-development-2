@@ -15,7 +15,7 @@
           v-for="(message, index) in chat.messages"
           :key="index"
           :class="message.fromMe ? 'self-end bg-white text-right' : 'self-start bg-gray-100'"
-          class="max-w-full px-4 py-4 mr-6 rounded-xl"
+          class="max-w-full px-4 py-4 rounded-xl"
         >
           {{ message.text }}
         </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-4 p-4 hover:bg-gray-100 cursor-pointer">
+  <div class="flex items-center gap-4 p-5 hover:bg-gray-100 cursor-pointer">
     <img :src="avatar" alt="avatar" class="w-12 h-12 rounded-full" />
     <div class="flex-1">
       <div class="flex justify-between">
@@ -8,9 +8,18 @@
       </div>
       <div class="flex justify-between items-center">
         <span class="text-sm text-gray-700 truncate w-full">
-          {{ lastMessage?.text || 'No messages yet' }}
+          {{
+            lastMessage?.text
+              ? lastMessage.text.length > 25
+                ? lastMessage.text.slice(0, 25) + '...'
+                : lastMessage.text
+              : 'No messages yet'
+          }}
         </span>
-        <span v-if="unread > 0" class="bg-blue-500 text-white text-xs rounded-full px-2 ml-2">
+        <span
+          v-if="unread > 0"
+          class="bg-blue-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center ml-2"
+        >
           {{ unread }}
         </span>
       </div>
