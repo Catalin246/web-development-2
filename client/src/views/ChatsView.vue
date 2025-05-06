@@ -21,142 +21,149 @@ onUnmounted(() => {
   window.removeEventListener('resize', updateWidth)
 })
 
-// Chats data with a computed unread count
+// Chats data with individual timestamps for each message
 const chats = ref([
   {
     name: "Sarah Johnson",
-    time: "09:15",
     avatar: "https://randomuser.me/api/portraits/women/1.jpg",
     messages: [
-      { text: "Hey, are we still meeting tomorrow at the coffee shop?", read: false, fromMe: false },
-      { text: "I’ll be there at 10!", read: false, fromMe: true },
-      { text: "Don’t forget the book 📖", read: true, fromMe: false }
+      { text: "Hey, are we still meeting tomorrow at the coffee shop?", timestamp: new Date('2025-05-06T09:15:00'), read: true, fromMe: false },
+      { text: "I’ll be there at 10!", timestamp: new Date('2025-05-06T09:20:00'), read: false, fromMe: true },
+      { text: "Don’t forget the book 📖", timestamp: new Date('2025-05-05T18:00:00'), read: true, fromMe: false }
     ]
   },
   {
     name: "Tech Support",
-    time: "Yesterday",
     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
     messages: [
-      { text: "We’ve received your ticket.", read: true, fromMe: false },
-      { text: "Issue identified, working on it now.", read: true, fromMe: false },
-      { text: "Your ticket #4567 has been resolved. Please confirm if everything works now.", read: false, fromMe: false }
+      { text: "We’ve received your ticket.", timestamp: new Date('2025-05-05T10:00:00'), read: true, fromMe: false },
+      { text: "Issue identified, working on it now.", timestamp: new Date('2025-05-05T12:30:00'), read: true, fromMe: false },
+      { text: "Your ticket #4567 has been resolved. Please confirm if everything works now.", timestamp: new Date('2025-05-05T15:45:00'), read: false, fromMe: false }
     ]
   },
   {
     name: "Mom",
-    time: "Yesterday",
     avatar: "https://randomuser.me/api/portraits/women/2.jpg",
     messages: [
-      { text: "Don't forget about family dinner this Sunday! 🍗", read: true, fromMe: false },
-      { text: "Bringing your favorite pie!", read: true, fromMe: false },
-      { text: "Call me later ❤️", read: true, fromMe: false }
+      { text: "Don't forget about family dinner this Sunday! 🍗", timestamp: new Date('2025-05-04T14:30:00'), read: true, fromMe: false },
+      { text: "Bringing your favorite pie!", timestamp: new Date('2025-05-04T15:00:00'), read: true, fromMe: false },
+      { text: "Call me later ❤️", timestamp: new Date('2025-05-04T18:00:00'), read: true, fromMe: false }
     ]
   },
   {
     name: "Alex Taylor",
-    time: "11/05",
     avatar: "https://randomuser.me/api/portraits/men/2.jpg",
     messages: [
-      { text: "Just sent you the project files.", read: false, fromMe: false },
-      { text: "Let me know what you think!", read: false, fromMe: false },
-      { text: "Also check the updated timeline.", read: false, fromMe: false }
+      { text: "Just sent you the project files.", timestamp: new Date('2025-05-06T09:00:00'), read: false, fromMe: false },
+      { text: "Let me know what you think!", timestamp: new Date('2025-05-06T09:05:00'), read: false, fromMe: false },
+      { text: "Also check the updated timeline.", timestamp: new Date('2025-05-06T09:10:00'), read: false, fromMe: false }
     ]
   },
   {
     name: "Work Group",
-    time: "10/05",
     avatar: "https://randomuser.me/api/portraits/men/3.jpg",
     messages: [
-      { text: "Meeting moved to 3pm", read: false, fromMe: false },
-      { text: "Jenny: I'll be late", read: false, fromMe: false },
-      { text: "Mike: Got it", read: false, fromMe: false },
-      { text: "I'll update the notes later.", read: true, fromMe: true }
+      { text: "Meeting moved to 3pm", timestamp: new Date('2025-05-06T10:30:00'), read: false, fromMe: false },
+      { text: "Jenny: I'll be late", timestamp: new Date('2025-05-06T10:35:00'), read: false, fromMe: false },
+      { text: "Mike: Got it", timestamp: new Date('2025-05-06T10:40:00'), read: false, fromMe: false },
+      { text: "I'll update the notes later.", timestamp: new Date('2025-05-06T10:50:00'), read: true, fromMe: true }
     ]
   },
   {
     name: "James Wilson",
-    time: "08/05",
     avatar: "https://randomuser.me/api/portraits/men/4.jpg",
     messages: [
-      { text: "The design mockups look great!", read: true, fromMe: false },
-      { text: "Just a few small changes needed...", read: true, fromMe: false },
-      { text: "Will send notes shortly.", read: true, fromMe: false }
+      { text: "The design mockups look great!", timestamp: new Date('2025-05-03T09:15:00'), read: true, fromMe: false },
+      { text: "Just a few small changes needed...", timestamp: new Date('2025-05-03T09:20:00'), read: true, fromMe: false },
+      { text: "Will send notes shortly.", timestamp: new Date('2025-05-03T09:30:00'), read: true, fromMe: false }
     ]
   },
   {
     name: "Emma Davis",
-    time: "05/05",
     avatar: "https://randomuser.me/api/portraits/women/3.jpg",
     messages: [
-      { text: "Thanks for the birthday wishes! 🎉", read: true, fromMe: false },
-      { text: "It was such a fun day!", read: true, fromMe: false },
-      { text: "Let's catch up soon.", read: true, fromMe: false }
+      { text: "Thanks for the birthday wishes! 🎉", timestamp: new Date('2025-05-01T15:00:00'), read: true, fromMe: false },
+      { text: "It was such a fun day!", timestamp: new Date('2025-05-01T15:10:00'), read: true, fromMe: false },
+      { text: "Let's catch up soon.", timestamp: new Date('2025-05-01T15:20:00'), read: true, fromMe: false }
     ]
   },
   {
     name: "Delivery",
-    time: "03/05",
     avatar: "https://randomuser.me/api/portraits/men/5.jpg",
     messages: [
-      { text: "Your package #12345 has been shipped.", read: true, fromMe: false },
-      { text: "Out for delivery now.", read: true, fromMe: false },
-      { text: "Your package #12345 has been delivered", read: true, fromMe: false }
+      { text: "Your package #12345 has been shipped.", timestamp: new Date('2025-04-30T10:00:00'), read: true, fromMe: false },
+      { text: "Out for delivery now.", timestamp: new Date('2025-04-30T11:00:00'), read: true, fromMe: false },
+      { text: "Your package #12345 has been delivered", timestamp: new Date('2025-04-30T12:00:00'), read: true, fromMe: false }
     ]
   },
   {
     name: "David Miller",
-    time: "01/05",
     avatar: "https://randomuser.me/api/portraits/men/6.jpg",
     messages: [
-      { text: "Let me know when you're free.", read: true, fromMe: false },
-      { text: "Want to talk about the new project.", read: true, fromMe: false },
-      { text: "Ping me anytime today.", read: false, fromMe: false }
+      { text: "Let me know when you're free.", timestamp: new Date('2025-04-29T09:00:00'), read: true, fromMe: false },
+      { text: "Want to talk about the new project.", timestamp: new Date('2025-04-29T09:05:00'), read: true, fromMe: false },
+      { text: "Ping me anytime today.", timestamp: new Date('2025-04-29T09:10:00'), read: false, fromMe: false }
     ]
   },
   {
     name: "Study Group",
-    time: "28/04",
     avatar: "https://randomuser.me/api/portraits/women/4.jpg",
     messages: [
-      { text: "Final exam on Friday", read: false, fromMe: false },
-      { text: "Maria: I'll bring snacks", read: false, fromMe: false },
-      { text: "Tom: Can someone share notes?", read: false, fromMe: false },
-      { text: "Sure, I'll upload mine tonight.", read: true, fromMe: true }
+      { text: "Final exam on Friday", timestamp: new Date('2025-04-27T13:00:00'), read: false, fromMe: false },
+      { text: "Maria: I'll bring snacks", timestamp: new Date('2025-04-27T13:10:00'), read: false, fromMe: false },
+      { text: "Tom: Can someone share notes?", timestamp: new Date('2025-04-27T13:15:00'), read: false, fromMe: false },
+      { text: "Sure, I'll upload mine tonight.", timestamp: new Date('2025-04-27T13:30:00'), read: true, fromMe: true }
     ]
   },
   {
     name: "Olivia Brown",
-    time: "25/04",
     avatar: "https://randomuser.me/api/portraits/women/5.jpg",
     messages: [
-      { text: "The restaurant was amazing!", read: true, fromMe: false },
-      { text: "We should go there again soon 😊", read: true, fromMe: false },
-      { text: "Next weekend?", read: true, fromMe: false }
+      { text: "The restaurant was amazing!", timestamp: new Date('2025-04-25T18:00:00'), read: true, fromMe: false },
+      { text: "We should go there again soon 😊", timestamp: new Date('2025-04-25T18:15:00'), read: true, fromMe: false },
+      { text: "Next weekend?", timestamp: new Date('2025-04-25T18:30:00'), read: true, fromMe: false }
     ]
   },
   {
     name: "Bank Alerts",
-    time: "20/04",
     avatar: "https://randomuser.me/api/portraits/men/7.jpg",
     messages: [
-      { text: "Reminder: Credit card payment due in 3 days", read: true, fromMe: false },
-      { text: "Auto payment enabled", read: true, fromMe: false },
-      { text: "Thank you for your payment", read: true, fromMe: false }
+      { text: "Reminder: Credit card payment due in 3 days", timestamp: new Date('2025-04-20T09:00:00'), read: true, fromMe: false },
+      { text: "Auto payment enabled", timestamp: new Date('2025-04-20T09:30:00'), read: true, fromMe: false },
+      { text: "Thank you for your payment", timestamp: new Date('2025-04-20T10:00:00'), read: true, fromMe: false }
     ]
   }
 ])
 
-// Computed property to calculate unread messages count for each chat
+// Function to format the time based on today, yesterday, or full date
+function formatMessageTime(timestamp) {
+  const now = new Date();
+  const diffInMs = now - timestamp;
+  const oneDay = 24 * 60 * 60 * 1000;
+
+  if (diffInMs < oneDay) {
+    return timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  } else if (diffInMs < 2 * oneDay) {
+    return 'Yesterday';
+  } else {
+    return timestamp.toLocaleDateString();
+  }
+}
+
+// Computed property to calculate unread messages count and format time
 const calculatedChats = computed(() => {
   return chats.value.map(chat => {
-    const unreadCount = chat.messages.filter(message => !message.read).length
+    const unreadCount = chat.messages.filter(message => !message.read).length;
     return {
       ...chat,
-      unread: unreadCount
-    }
-  })
-})
+      unread: unreadCount,
+      messages: chat.messages.map(message => ({
+        ...message,
+        formattedTime: formatMessageTime(message.timestamp)
+      }))
+    };
+  });
+});
 
 </script>
 
@@ -170,9 +177,9 @@ const calculatedChats = computed(() => {
       <ChatItem
         :name="chat.name"
         :avatar="chat.avatar"
-        :time="chat.time"
         :unread="chat.unread"
         :lastMessage="chat.messages.length ? chat.messages[chat.messages.length - 1] : null"
+        :time="chat.messages.length ? chat.messages[chat.messages.length - 1].formattedTime : ''"
       />
     </div>
   </div>
