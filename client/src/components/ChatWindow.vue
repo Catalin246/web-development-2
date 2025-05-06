@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-[calc(90%)] md:h-full bg-white rounded-lg shadow-inner">
+    <div class="flex flex-col h-[calc(90%)] md:h-full bg-white rounded-lg">
       <!-- Chat Header -->
       <div class="flex items-center justify-between p-4 border-b bg-blue-50">
         <div class="flex items-center gap-4">
@@ -14,15 +14,15 @@
         <div
           v-for="(message, index) in chat.messages"
           :key="index"
-          :class="message.fromMe ? 'self-end bg-blue-100 text-right' : 'self-start bg-gray-100'"
-          class="max-w-xs px-4 py-2 rounded-xl"
+          :class="message.fromMe ? 'self-end bg-white text-right' : 'self-start bg-gray-100'"
+          class="max-w-xs px-4 pl-2 pr-4 rounded-xl"
         >
           {{ message.text }}
         </div>
       </div>
   
       <!-- Message Input -->
-      <div class="border-t p-4">
+      <div class="border-t py-4">
         <input
           type="text"
           placeholder="Type your message..."

@@ -25,7 +25,7 @@ const route = useRoute()
       </aside>
 
       <!-- Page Content -->
-      <main class="flex-1 flex w-full h-[calc(97%)] md:w-[94%]">
+      <main class="flex-1 flex w-full h-[calc(97%)] md:h-full md:w-[94%]">
         <router-view />
       </main>
     </div>
