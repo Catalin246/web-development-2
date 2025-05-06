@@ -28,7 +28,6 @@ onUnmounted(() => {
 
 // Chats data with owner information in messages and handling group chats
 const chats = ref([
-  // Example for normal chat with 2 people
   {
     type: 'normal',
     name: "Sarah Johnson",
@@ -43,8 +42,6 @@ const chats = ref([
       { text: "Don’t forget the book 📖", timestamp: new Date('2025-05-05T18:00:00'), read: true, from: 2 }
     ]
   },
-  
-  // Example for a group chat with multiple participants
   {
     type: 'group',
     name: "Work Group",
@@ -60,6 +57,111 @@ const chats = ref([
       { text: "Jenny: I'll be late", timestamp: new Date('2025-05-06T10:35:00'), read: false, from: 3 },
       { text: "Mike: Got it", timestamp: new Date('2025-05-06T10:40:00'), read: false, from: 4 },
       { text: "I'll update the notes later.", timestamp: new Date('2025-05-06T10:50:00'), read: true, from: 1 }
+    ]
+  },
+  {
+    type: 'normal',
+    name: "Liam Parker",
+    avatar: "https://randomuser.me/api/portraits/men/5.jpg",
+    participants: [
+      { id: 1, name: userName, avatar: 'https://randomuser.me/api/portraits/men/8.jpg' },
+      { id: 5, name: 'Liam Parker', avatar: 'https://randomuser.me/api/portraits/men/5.jpg' }
+    ],
+    messages: Array.from({ length: 10 }, (_, i) => ({
+      text: `Message ${i + 1} from ${i % 2 === 0 ? 'Liam' : userName}`,
+      timestamp: new Date(`2025-05-06T0${i + 1}:00:00`),
+      read: true,
+      from: i % 2 === 0 ? 5 : 1
+    }))
+  },
+  {
+    type: 'normal',
+    name: "Emma Williams",
+    avatar: "https://randomuser.me/api/portraits/women/6.jpg",
+    participants: [
+      { id: 1, name: userName, avatar: 'https://randomuser.me/api/portraits/men/8.jpg' },
+      { id: 6, name: 'Emma Williams', avatar: 'https://randomuser.me/api/portraits/women/6.jpg' }
+    ],
+    messages: Array.from({ length: 12 }, (_, i) => ({
+      text: `Chat with Emma, msg ${i + 1}`,
+      timestamp: new Date(`2025-05-05T1${i}:00:00`),
+      read: i < 10,
+      from: i % 2 === 0 ? 6 : 1
+    }))
+  },
+  {
+    type: 'group',
+    name: "Gaming Squad",
+    avatar: "https://randomuser.me/api/portraits/men/6.jpg",
+    participants: [
+      { id: 1, name: userName, avatar: 'https://randomuser.me/api/portraits/men/8.jpg' },
+      { id: 7, name: 'Alex', avatar: 'https://randomuser.me/api/portraits/men/7.jpg' },
+      { id: 8, name: 'Zoe', avatar: 'https://randomuser.me/api/portraits/women/3.jpg' }
+    ],
+    messages: [
+      { text: "Who's online tonight?", timestamp: new Date('2025-05-06T08:00:00'), read: false, from: 7 },
+      { text: "I'll be on after 9.", timestamp: new Date('2025-05-06T08:10:00'), read: false, from: 8 },
+      { text: "Same here", timestamp: new Date('2025-05-06T08:12:00'), read: true, from: 1 }
+    ]
+  },
+  {
+    type: 'normal',
+    name: "Noah Martinez",
+    avatar: "https://randomuser.me/api/portraits/men/9.jpg",
+    participants: [
+      { id: 1, name: userName, avatar: 'https://randomuser.me/api/portraits/men/8.jpg' },
+      { id: 9, name: 'Noah Martinez', avatar: 'https://randomuser.me/api/portraits/men/9.jpg' }
+    ],
+    messages: [
+      { text: "Lunch tomorrow?", timestamp: new Date('2025-05-05T12:00:00'), read: true, from: 9 }
+    ]
+  },
+  {
+    type: 'normal',
+    name: "Olivia Brown",
+    avatar: "https://randomuser.me/api/portraits/women/7.jpg",
+    participants: [
+      { id: 1, name: userName, avatar: 'https://randomuser.me/api/portraits/men/8.jpg' },
+      { id: 10, name: 'Olivia Brown', avatar: 'https://randomuser.me/api/portraits/women/7.jpg' }
+    ],
+    messages: [
+      { text: "Can you review my resume?", timestamp: new Date('2025-05-04T14:00:00'), read: false, from: 10 }
+    ]
+  },
+  {
+    type: 'normal',
+    name: "Ethan Davis",
+    avatar: "https://randomuser.me/api/portraits/men/10.jpg",
+    participants: [
+      { id: 1, name: userName, avatar: 'https://randomuser.me/api/portraits/men/8.jpg' },
+      { id: 11, name: 'Ethan Davis', avatar: 'https://randomuser.me/api/portraits/men/10.jpg' }
+    ],
+    messages: [
+      { text: "Final exam schedule?", timestamp: new Date('2025-05-03T10:00:00'), read: true, from: 11 }
+    ]
+  },
+  {
+    type: 'normal',
+    name: "Chloe Wilson",
+    avatar: "https://randomuser.me/api/portraits/women/8.jpg",
+    participants: [
+      { id: 1, name: userName, avatar: 'https://randomuser.me/api/portraits/men/8.jpg' },
+      { id: 12, name: 'Chloe Wilson', avatar: 'https://randomuser.me/api/portraits/women/8.jpg' }
+    ],
+    messages: [
+      { text: "Let's plan a trip!", timestamp: new Date('2025-05-02T09:00:00'), read: false, from: 12 }
+    ]
+  },
+  {
+    type: 'normal',
+    name: "Daniel Lee",
+    avatar: "https://randomuser.me/api/portraits/men/12.jpg",
+    participants: [
+      { id: 1, name: userName, avatar: 'https://randomuser.me/api/portraits/men/8.jpg' },
+      { id: 13, name: 'Daniel Lee', avatar: 'https://randomuser.me/api/portraits/men/12.jpg' }
+    ],
+    messages: [
+      { text: "Did you get the report?", timestamp: new Date('2025-05-01T08:30:00'), read: true, from: 13 }
     ]
   }
 ])
