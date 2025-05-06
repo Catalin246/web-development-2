@@ -99,3 +99,7 @@ body {
 .shadow-right {
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.shadow-top {
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+}
