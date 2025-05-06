@@ -10,12 +10,16 @@
       </div>
   
       <!-- Messages Area -->
-      <div class="flex-1 overflow-y-auto p-4 space-y-2">
+      <div class="flex-1 overflow-y-auto p-4 space-y-2 flex flex-col">
         <div
           v-for="(message, index) in chat.messages"
           :key="index"
-          :class="message.fromMe ? 'self-end bg-white text-right' : 'self-start bg-gray-100'"
-          class="max-w-full px-4 py-4 rounded-xl"
+          :class="[
+            'px-4 py-3 rounded-xl max-w-[50%]',
+            message.fromMe
+              ? 'self-end bg-blue-100 text-right'
+              : 'self-start bg-gray-100 text-left'
+          ]"
         >
           {{ message.text }}
         </div>
