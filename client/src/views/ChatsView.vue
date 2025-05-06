@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import ChatItem from '../components/ChatItem.vue'
 import ChatWindow from '../components/ChatWindow.vue'
 
@@ -21,11 +21,11 @@ onUnmounted(() => {
   window.removeEventListener('resize', updateWidth)
 })
 
-const chats = [
+// Chats data with a computed unread count
+const chats = ref([
   {
     name: "Sarah Johnson",
     time: "09:15",
-    unread: 2,
     avatar: "https://randomuser.me/api/portraits/women/1.jpg",
     messages: [
       { text: "Hey, are we still meeting tomorrow at the coffee shop?", read: false, fromMe: false },
@@ -36,7 +36,6 @@ const chats = [
   {
     name: "Tech Support",
     time: "Yesterday",
-    unread: 1,
     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
     messages: [
       { text: "We’ve received your ticket.", read: true, fromMe: false },
@@ -47,7 +46,6 @@ const chats = [
   {
     name: "Mom",
     time: "Yesterday",
-    unread: 0,
     avatar: "https://randomuser.me/api/portraits/women/2.jpg",
     messages: [
       { text: "Don't forget about family dinner this Sunday! 🍗", read: true, fromMe: false },
@@ -58,7 +56,6 @@ const chats = [
   {
     name: "Alex Taylor",
     time: "11/05",
-    unread: 3,
     avatar: "https://randomuser.me/api/portraits/men/2.jpg",
     messages: [
       { text: "Just sent you the project files.", read: false, fromMe: false },
@@ -69,7 +66,6 @@ const chats = [
   {
     name: "Work Group",
     time: "10/05",
-    unread: 12,
     avatar: "https://randomuser.me/api/portraits/men/3.jpg",
     messages: [
       { text: "Meeting moved to 3pm", read: false, fromMe: false },
@@ -81,7 +77,6 @@ const chats = [
   {
     name: "James Wilson",
     time: "08/05",
-    unread: 0,
     avatar: "https://randomuser.me/api/portraits/men/4.jpg",
     messages: [
       { text: "The design mockups look great!", read: true, fromMe: false },
@@ -92,7 +87,6 @@ const chats = [
   {
     name: "Emma Davis",
     time: "05/05",
-    unread: 0,
     avatar: "https://randomuser.me/api/portraits/women/3.jpg",
     messages: [
       { text: "Thanks for the birthday wishes! 🎉", read: true, fromMe: false },
@@ -103,7 +97,6 @@ const chats = [
   {
     name: "Delivery",
     time: "03/05",
-    unread: 0,
     avatar: "https://randomuser.me/api/portraits/men/5.jpg",
     messages: [
       { text: "Your package #12345 has been shipped.", read: true, fromMe: false },
@@ -114,7 +107,6 @@ const chats = [
   {
     name: "David Miller",
     time: "01/05",
-    unread: 1,
     avatar: "https://randomuser.me/api/portraits/men/6.jpg",
     messages: [
       { text: "Let me know when you're free.", read: true, fromMe: false },
@@ -125,7 +117,6 @@ const chats = [
   {
     name: "Study Group",
     time: "28/04",
-    unread: 7,
     avatar: "https://randomuser.me/api/portraits/women/4.jpg",
     messages: [
       { text: "Final exam on Friday", read: false, fromMe: false },
@@ -137,7 +128,6 @@ const chats = [
   {
     name: "Olivia Brown",
     time: "25/04",
-    unread: 0,
     avatar: "https://randomuser.me/api/portraits/women/5.jpg",
     messages: [
       { text: "The restaurant was amazing!", read: true, fromMe: false },
@@ -148,7 +138,6 @@ const chats = [
   {
     name: "Bank Alerts",
     time: "20/04",
-    unread: 0,
     avatar: "https://randomuser.me/api/portraits/men/7.jpg",
     messages: [
       { text: "Reminder: Credit card payment due in 3 days", read: true, fromMe: false },
@@ -156,7 +145,19 @@ const chats = [
       { text: "Thank you for your payment", read: true, fromMe: false }
     ]
   }
-]
+])
+
+// Computed property to calculate unread messages count for each chat
+const calculatedChats = computed(() => {
+  return chats.value.map(chat => {
+    const unreadCount = chat.messages.filter(message => !message.read).length
+    return {
+      ...chat,
+      unread: unreadCount
+    }
+  })
+})
+
 </script>
 
 <template>
@@ -165,7 +166,7 @@ const chats = [
     v-if="!selectedChat || windowWidth >= 768"
     class="w-full md:w-[30%] overflow-y-auto hide-scrollbar shadow-right"
   >
-    <div v-for="chat in chats" :key="chat.name" @click="openChat(chat)">
+    <div v-for="chat in calculatedChats" :key="chat.name" @click="openChat(chat)">
       <ChatItem
         :name="chat.name"
         :avatar="chat.avatar"
