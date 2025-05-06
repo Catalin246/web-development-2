@@ -1,28 +1,37 @@
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { 
-  faComment, 
-  faUsers, 
-  faUser, 
-  faEllipsisH 
-} from '@fortawesome/free-solid-svg-icons'
+import { faComment, faUsers, faUser, faEllipsisH } from '@fortawesome/free-solid-svg-icons'
+import { useRoute, useRouter } from 'vue-router'
 
-defineProps(['label', 'active'])
+const props = defineProps(['label', 'active'])
 
-// Get icon based on label
+const route = useRoute()
+const router = useRouter()
+
+const labelToRoute = {
+  'Chats': '/chats',
+  'Groups': '/groups',
+  'Profile': '/profile',
+  'More': '/more',
+}
+
+const goTo = () => {
+  const target = labelToRoute[props.label]
+  if (route.path !== target) router.push(target)
+}
+
 const getIcon = (label) => {
   switch(label) {
     case 'Chats': return faComment
     case 'Groups': return faUsers
     case 'Profile': return faUser
     case 'More': return faEllipsisH
-    default: return faComment
   }
 }
 </script>
 
 <template>
-  <div class="flex flex-col items-center text-sm mt-3">
+  <div class="flex flex-col items-center text-sm mt-3 cursor-pointer" @click="goTo">
     <div 
       class="w-10 h-10 flex items-center justify-center rounded-full"
       :class="{ 'bg-blue-600': active, 'bg-gray-300': !active }"
