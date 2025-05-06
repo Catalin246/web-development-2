@@ -34,14 +34,14 @@ function openChat(chat) {
 <template>
   <div class="flex w-full h-full overflow-hidden">
     <!-- Chat List -->
-    <div v-if="!selectedChat || window.innerWidth >= 768" class="w-full md:w-[20%] overflow-y-auto border-r">
+    <div v-if="!selectedChat || window.innerWidth >= 768" class="w-full md:w-[25%] overflow-y-auto border-r">
       <div v-for="chat in groups" :key="chat.name" @click="openChat(chat)">
         <ChatItem v-bind="chat" />
       </div>
     </div>
 
     <!-- Chat Window -->
-    <div v-if="selectedChat" class="w-full md:w-[70%] p-4 overflow-y-auto">
+    <div v-if="selectedChat" class="w-full md:w-[75%] p-4 overflow-y-auto">
       <div class="md:hidden mb-4">
         <button @click="selectedChat = null" class="text-blue-600">&larr; Back</button>
       </div>
