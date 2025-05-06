@@ -98,20 +98,24 @@ function openChat(chat) {
 </script>
 
 <template>
-  <div class="flex w-full h-full overflow-hidden">
-    <!-- Chat List (Mobile: full width, Desktop: 20%) -->
-    <div v-if="!selectedChat || window.innerWidth >= 768" class="w-full md:w-[25%] overflow-y-auto border-r">
-      <div v-for="chat in chats" :key="chat.name" @click="openChat(chat)">
-        <ChatItem v-bind="chat" />
-      </div>
+  <!-- Chat List -->
+  <div
+    v-if="!selectedChat || window.innerWidth >= 768"
+    class="w-full md:w-[30%] overflow-y-auto border-r hide-scrollbar"
+  >
+    <div v-for="chat in chats" :key="chat.name" @click="openChat(chat)">
+      <ChatItem v-bind="chat" />
     </div>
+  </div>
 
-    <!-- Chat Window (Mobile: overlay, Desktop: 70%) -->
-    <div v-if="selectedChat" class="w-full md:w-[75%] p-4 overflow-y-auto">
-      <div class="md:hidden mb-4">
-        <button @click="selectedChat = null" class="text-blue-600">&larr; Back</button>
-      </div>
-      <ChatWindow :chat="selectedChat" />
+  <!-- Chat Window -->
+  <div
+    v-if="selectedChat"
+    class="w-full md:w-[70%] p-4 overflow-y-auto hide-scrollbar"
+  >
+    <div class="md:hidden mb-4">
+      <button @click="selectedChat = null" class="text-blue-600">&larr; Back</button>
     </div>
+    <ChatWindow :chat="selectedChat" />
   </div>
 </template>
