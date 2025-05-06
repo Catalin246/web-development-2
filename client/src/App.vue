@@ -9,7 +9,7 @@ const route = useRoute()
   <div class="w-screen h-screen overflow-hidden flex flex-col bg-white">
 
     <!-- Fixed Header -->
-    <header class="fixed top-0 left-0 w-full z-10 bg-blue-600 text-white p-4 flex justify-between items-center shadow-md">
+    <header class="fixed top-0 left-0 w-full z-10 bg-blue-600 text-white p-4 flex justify-between items-center shadow-none">
       <h1 class="font-medium text-xl">Chat App</h1>
     </header>
 

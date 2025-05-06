@@ -101,7 +101,7 @@ function openChat(chat) {
   <!-- Chat List -->
   <div
     v-if="!selectedChat || window.innerWidth >= 768"
-    class="w-full md:w-[30%] overflow-y-auto border-r hide-scrollbar"
+    class="w-full md:w-[30%] overflow-y-auto hide-scrollbar shadow-right "
   >
     <div v-for="chat in chats" :key="chat.name" @click="openChat(chat)">
       <ChatItem v-bind="chat" />
