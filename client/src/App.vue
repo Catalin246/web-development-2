@@ -16,7 +16,7 @@ const route = useRoute()
     <!-- Main Layout with Scroll -->
     <div class="flex flex-1 h-full py-16 md:py-0 md:pt-16 md:mb-0 overflow-y-auto"> <!-- adjust mt and mb to match header/footer height -->
 
-      <!-- Sidebar (10%) -->
+      <!-- Sidebar (6%) -->
       <aside class="hidden md:flex flex-col w-[6%] bg-gray-100 py-4 items-center space-y-6">
         <NavIcon label="Chats" :active="route.path === '/chats'" />
         <NavIcon label="Groups" :active="route.path === '/groups'" />

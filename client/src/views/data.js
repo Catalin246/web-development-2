@@ -1,26 +1,3 @@
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import ChatItem from '../components/ChatItem.vue'
-import ChatWindow from '../components/ChatWindow.vue'
-
-const selectedChat = ref(null)
-const windowWidth = ref(window.innerWidth)
-
-function openChat(chat) {
-  selectedChat.value = chat
-}
-
-function updateWidth() {
-  windowWidth.value = window.innerWidth
-}
-
-onMounted(() => {
-  window.addEventListener('resize', updateWidth)
-})
-onUnmounted(() => {
-  window.removeEventListener('resize', updateWidth)
-})
-
 const chats = [
   {
     name: "Sarah Johnson",
@@ -121,27 +98,3 @@ const chats = [
     messages: []
   }
 ]
-</script>
-
-<template>
-  <!-- Chat List -->
-  <div
-    v-if="!selectedChat || windowWidth >= 768"
-    class="w-full md:w-[30%] overflow-y-auto hide-scrollbar shadow-right"
-  >
-    <div v-for="chat in chats" :key="chat.name" @click="openChat(chat)">
-      <ChatItem v-bind="chat" />
-    </div>
-  </div>
-
-  <!-- Chat Window -->
-  <div
-    v-if="selectedChat"
-    class="w-full md:w-[70%] p-4 overflow-y-auto hide-scrollbar pt-8"
-  >
-    <div class="md:hidden mb-4">
-      <button @click="selectedChat = null" class="text-blue-600">&larr; Back</button>
-    </div>
-    <ChatWindow :chat="selectedChat" />
-  </div>
-</template>

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-full bg-white rounded-lg shadow-inner">
+    <div class="flex flex-col h-[calc(90%)] md:h-full bg-white rounded-lg shadow-inner">
       <!-- Chat Header -->
       <div class="flex items-center justify-between p-4 border-b bg-blue-50">
         <div class="flex items-center gap-4">
