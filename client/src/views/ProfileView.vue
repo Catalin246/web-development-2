@@ -1,6 +1,6 @@
 <template>
-    <div class="p-4 md:p-8 w-full">
-      <div class="max-w-xl mx-auto bg-white shadow rounded-xl p-6 space-y-4">
+    <div class="py-4 md:p-8 w-full">
+      <div class="max-w-xl mx-auto bg-white rounded-xl p-4 space-y-4">
         <div class="flex items-center space-x-4">
           <img
             src="https://randomuser.me/api/portraits/men/8.jpg"
