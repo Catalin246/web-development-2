@@ -64,7 +64,7 @@ const chats = ref([
       { id: 1, name: userName, avatar: 'https://randomuser.me/api/portraits/men/8.jpg' },
       { id: 5, name: 'Liam Parker', avatar: 'https://randomuser.me/api/portraits/men/5.jpg' }
     ],
-    messages: Array.from({ length: 10 }, (_, i) => ({
+    messages: Array.from({ length: 8 }, (_, i) => ({
       text: `Message ${i + 1} from ${i % 2 === 0 ? 'Liam' : userName}`,
       timestamp: new Date(`2025-05-06T0${i + 1}:00:00`),
       read: true,
@@ -79,7 +79,7 @@ const chats = ref([
       { id: 1, name: userName, avatar: 'https://randomuser.me/api/portraits/men/8.jpg' },
       { id: 6, name: 'Emma Williams', avatar: 'https://randomuser.me/api/portraits/women/6.jpg' }
     ],
-    messages: Array.from({ length: 12 }, (_, i) => ({
+    messages: Array.from({ length: 8 }, (_, i) => ({
       text: `Chat with Emma, msg ${i + 1}`,
       timestamp: new Date(`2025-05-05T1${i}:00:00`),
       read: i < 10,

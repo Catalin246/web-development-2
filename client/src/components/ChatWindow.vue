@@ -10,7 +10,7 @@
     </div>
 
     <!-- Messages Area -->
-    <div class="flex-1 overflow-y-auto p-4 space-y-2 flex flex-col">
+    <div class="flex-1 overflow-y-auto p-4 space-y-2 flex flex-col hide-scrollbar">
       <div
         v-for="(message, index) in chat.messages"
         :key="index"
@@ -46,6 +46,9 @@
           class="w-6 h-6 rounded-full ml-2"
         />
       </div>
+
+      <!-- Scroll anchor for auto-scroll -->
+      <div ref="bottomRef"></div>
     </div>
 
     <!-- Message Input -->
@@ -60,7 +63,19 @@
 </template>
 
 <script setup>
+import { ref, onMounted, nextTick } from 'vue'
+
+// Props
 defineProps({
   chat: Object
+})
+
+// Refs
+const bottomRef = ref(null)
+
+// Scroll to bottom on mount
+onMounted(async () => {
+  await nextTick()
+  bottomRef.value?.scrollIntoView({ behavior: 'auto' })
 })
 </script>
