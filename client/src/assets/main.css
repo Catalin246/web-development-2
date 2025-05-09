@@ -17,7 +17,7 @@ a,
 
 @media (hover: hover) {
   a:hover {
-    /* background-color: hsla(160, 100%, 37%, 0.2); */
+    background-color: hsla(160, 100%, 37%, 0.2);
   }
 }
 
@@ -27,9 +27,15 @@ a,
     place-items: center;
   }
 
-  #app {
+  body #app {
     display: grid;
+  }
+
+  body:not(.auth-page) #app {
     grid-template-columns: 1fr 1fr;
-    /* padding: 0 2rem; */
+  }
+
+  body.auth-page #app {
+    margin: 0 auto;
   }
 }
