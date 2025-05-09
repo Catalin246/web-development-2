@@ -27,7 +27,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-4 py-6 w-full">
+  <div class="p-4 py-6 md:p-16 md:py-10 w-full">
     <!-- Search Friends Section -->
     <h2 class="text-2xl font-semibold mb-4">Add Friends</h2>
     <input

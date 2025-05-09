@@ -3,5 +3,5 @@
 to do:
 - login view
 - regiester view
-- plus and search icon? (add friend view and make the search view)
+- maybe more and setting desktop view
 - message (order and display time on chat)
