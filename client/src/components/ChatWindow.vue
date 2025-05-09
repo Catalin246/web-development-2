@@ -73,19 +73,27 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, nextTick, watch } from 'vue'
 
 // Props
-defineProps({
+const props = defineProps({
   chat: Object
 })
 
 // Refs
 const bottomRef = ref(null)
 
-// Scroll to bottom on mount
-onMounted(async () => {
+// Function to scroll to bottom
+const scrollToBottom = async () => {
   await nextTick()
   bottomRef.value?.scrollIntoView({ behavior: 'auto' })
-})
+}
+
+// Scroll to bottom when the component first mounts
+onMounted(scrollToBottom)
+
+// Scroll to bottom whenever a new chat is opened
+watch(() => props.chat, () => {
+  scrollToBottom()
+}, { deep: true })
 </script>
