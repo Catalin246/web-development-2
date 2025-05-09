@@ -53,11 +53,21 @@
 
     <!-- Message Input -->
     <div class="border-t pt-4">
-      <input
-        type="text"
-        placeholder="Type your message..."
-        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
-      />
+      <div class="flex gap-2 items-end">
+        <textarea
+          placeholder="Type your message..."
+          rows="1"
+          oninput="this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 200) + 'px';"
+          class="flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none overflow-hidden"
+          style="max-height: 200px;"
+        ></textarea>
+        <button
+          type="button"
+          class="p-2 px-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+        >
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
     </div>
   </div>
 </template>
