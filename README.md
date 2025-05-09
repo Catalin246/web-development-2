@@ -4,5 +4,4 @@ to do:
 - login view
 - regiester view
 - plus and search icon? (add friend view and make the search view)
-- send option icon on the chat 
 - message (order and display time on chat)

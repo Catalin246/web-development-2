@@ -11,6 +11,9 @@ const route = useRoute()
     <!-- Fixed Header -->
     <header class="fixed top-0 left-0 w-full z-10 bg-blue-600 text-white p-5 flex justify-between items-center shadow-xl rounded-b-2xl md:rounded-none">
       <h1 class="font-medium text-xl">Chat App</h1>
+      <router-link to="/friend-request" class="text-white text-2xl">
+        <i class="fas fa-plus cursor-pointer text-white hover:text-gray-300"></i>
+      </router-link>
     </header>
 
     <!-- Main Layout with Scroll -->
