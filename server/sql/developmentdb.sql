@@ -41,20 +41,31 @@ CREATE TABLE `articles` (
 -- Table structure for table `users`
 --
 
+-- CREATE TABLE `users` (
+--   `id` int(11) NOT NULL,
+--   `email` varchar(255) NOT NULL,
+--   `password` varchar(255) NOT NULL,
+--   `created_at` datetime DEFAULT CURRENT_TIMESTAMP
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `email` VARCHAR(255) NOT NULL UNIQUE,
+  `password` VARCHAR(255) NOT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `status` VARCHAR(50) DEFAULT 'active',
+  `about` TEXT,
+  `avatar` VARCHAR(255) DEFAULT 'https://randomuser.me/api/portraits/lego/4.jpg',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for table `users`
 --
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
-
+-- ALTER TABLE `users`
+--   ADD PRIMARY KEY (`id`),
+--   ADD UNIQUE KEY `email` (`email`);
 --
 -- AUTO_INCREMENT for table `users`
 --

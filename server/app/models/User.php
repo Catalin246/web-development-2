@@ -4,8 +4,13 @@ namespace App\Models;
 
 class User extends Model
 {
-    public function create($email, $password)
+    public function create($name, $email, $password)
     {
+        // Validate name (basic example)
+        if (empty($name) || strlen($name) > 100) {
+            throw new \InvalidArgumentException('Invalid name');
+        }
+
         // Validate email format
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new \InvalidArgumentException('Invalid email format');
@@ -16,19 +21,18 @@ class User extends Model
             throw new \InvalidArgumentException('Email is too long');
         }
 
-        // Extract domain and validate
         $domain = substr(strrchr($email, "@"), 1);
         if (!checkdnsrr($domain, 'MX')) {
             throw new \InvalidArgumentException('Invalid email domain');
         }
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = self::$pdo->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
-        $stmt->execute([$email, $hashedPassword]);
+        $stmt = self::$pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+        $stmt->execute([$name, $email, $hashedPassword]);
 
         $userId = self::$pdo->lastInsertId();
         return $this->findById($userId);
-    }
+    }   
 
     public function findByEmail($email)
     {

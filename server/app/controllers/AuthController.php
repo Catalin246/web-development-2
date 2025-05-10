@@ -18,7 +18,7 @@ class AuthController extends Controller
     public function register()
     {
         $data = $this->decodePostData(); // Use base controller method to get POST data
-        $this->validateInput(['email', 'password'], $data); // Use base controller validation
+        $this->validateInput(['name', 'email', 'password'], $data); // Now also validates 'name'
 
         // Check if email already exists
         if ($this->userModel->findByEmail($data['email'])) {
@@ -26,12 +26,12 @@ class AuthController extends Controller
             return;
         }
 
-        // create user
+        // Create user
         try {
-            $this->userModel->create($data['email'], $data['password']);
+            $this->userModel->create($data['name'], $data['email'], $data['password']);
             return ResponseService::Send(['message' => 'User registered successfully']);
         } catch (\Exception $e) {
-            var_dump($e);
+            var_dump($e); // Optional: remove in production
             ResponseService::Error('Registration failed', 500);
         }
     }
