@@ -35,13 +35,49 @@ const router = useRouter()
 const email = ref('')
 const password = ref('')
 
+// Getting the API URL from the environment variable
 const apiUrl = import.meta.env.VITE_API_URL;
-console.log(apiUrl);  
+console.log(apiUrl);
 
-function handleLogin() {
-  // TODO: Replace with real auth logic
+// Function to handle login
+async function handleLogin() {
   if (email.value && password.value) {
-    router.push('/chats')
+    try {
+      const response = await fetch(`${apiUrl}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email.value,
+          password: password.value,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      // Parse the response JSON
+      const data = await response.json();
+
+      // Check if a token is returned in the response
+      if (data.token) {
+        // Store the token (example: localStorage or Vuex store)
+        localStorage.setItem('authToken', data.token);
+
+        // Redirect to the chats page after successful login
+        router.push('/chats');
+      } else {
+        throw new Error('Token not found in response');
+      }
+    } catch (error) {
+      console.error('Login Error:', error);
+      // Handle the error (you can show a message to the user here)
+    }
+  } else {
+    console.error('Email or password is empty');
+    // You can add a validation error here if needed
   }
 }
 </script>
