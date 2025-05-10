@@ -35,6 +35,9 @@ const router = useRouter()
 const email = ref('')
 const password = ref('')
 
+const apiUrl = import.meta.env.VITE_API_URL;
+console.log(apiUrl);  
+
 function handleLogin() {
   // TODO: Replace with real auth logic
   if (email.value && password.value) {
