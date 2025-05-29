@@ -63,7 +63,24 @@ class AuthController extends Controller
 
     public function me()
     {
-        ResponseService::Send($this->getAuthenticatedUser());
+        // Get the user object (decoded from JWT)
+        $authenticatedUser = $this->getAuthenticatedUser();
+
+        // Fetch the full user data from the database using the user ID
+        $user = $this->userModel->findById($authenticatedUser->id);
+
+        if (!$user) {
+            ResponseService::Error('User not found', 404);
+        }
+
+        // Return selected fields only
+        ResponseService::Send([
+            'id' => $user['id'],
+            'email' => $user['email'],
+            'name' => $user['name'],
+            'status' => $user['status'] ?? null,
+            'avatar' => $user['avatar'] ?? null
+        ]);
     }
 
     private function generateJWT($user)

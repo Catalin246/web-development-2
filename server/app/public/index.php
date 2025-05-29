@@ -49,7 +49,6 @@ try {
         $authController->me();
     }, ["get"]);
 
-    // update article by id
     Route::add('/auth/is-me/([0-9]*)', function ($id) {
         $authController = new AuthController();
         $authController->isMe($id);
