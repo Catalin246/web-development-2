@@ -100,6 +100,17 @@ try {
         });
     }, ['put']);
 
+    // Discover users the logged-in user is not already connected with (no accepted or pending friend request)
+    Route::add('/friends/discover', function () {
+        $controller = new FriendRequestController();
+        $controller->discoverFriends();
+    }, ['get']);
+
+    Route::add('/friends/list', function () {
+        $controller = new FriendRequestController();
+        $controller->getFriends();
+    }, ['get']);
+
     /**
      * 404 route handler
      */

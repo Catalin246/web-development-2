@@ -75,4 +75,18 @@ class FriendRequestController extends Controller
             ResponseService::Error('Failed to update friend request status', 500);
         }
     }
+
+    public function discoverFriends()
+    {
+        $user = $this->getAuthenticatedUser();
+        $users = $this->friendRequestModel->discoverFriends($user->id);
+        ResponseService::Send($users);
+    }
+
+    public function getFriends()
+    {
+        $authUser = $this->getAuthenticatedUser();
+        $friends = $this->friendRequestModel->getFriends($authUser->id);
+        ResponseService::Send($friends);
+    }
 }

@@ -66,4 +66,40 @@ class FriendRequest extends Model
         $stmt = self::$pdo->prepare("UPDATE friend_requests SET status = ? WHERE id = ?");
         return $stmt->execute([$status, $id]);
     }
+
+    public function discoverFriends(int $userId): array
+    {
+        $sql = "
+            SELECT u.id, u.name, u.avatar
+            FROM users u
+            WHERE u.id != :userId
+            AND u.id NOT IN (
+                SELECT sender_id FROM friend_requests 
+                WHERE receiver_id = :userId AND status IN ('pending', 'accepted')
+                UNION
+                SELECT receiver_id FROM friend_requests 
+                WHERE sender_id = :userId AND status IN ('pending', 'accepted')
+            )
+        ";
+
+        $stmt = self::$pdo->prepare($sql);
+        $stmt->execute(['userId' => $userId]);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getFriends(int $userId): array
+    {
+        $stmt = self::$pdo->prepare("
+            SELECT 
+                u.id, u.name, u.avatar
+            FROM friend_requests fr
+            JOIN users u ON 
+                (u.id = fr.sender_id AND fr.receiver_id = :userId) OR 
+                (u.id = fr.receiver_id AND fr.sender_id = :userId)
+            WHERE fr.status = 'accepted'
+        ");
+        $stmt->execute([':userId' => $userId]);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }
