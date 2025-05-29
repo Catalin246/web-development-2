@@ -3,7 +3,7 @@
     <div class="max-w-xl mx-auto bg-white rounded-xl p-4 space-y-4">
       <div class="flex items-center space-x-4">
         <img
-          :src="user.avatar || defaultAvatar"
+          :src="user.avatar"
           class="w-16 h-16 rounded-full"
           alt="User Avatar"
         />
