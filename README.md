@@ -1,4 +1,4 @@
 # Web Development 2
 
 to do:
-- display user profile (profile page)
+- update the user statud and about
