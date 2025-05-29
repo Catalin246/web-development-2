@@ -31,6 +31,12 @@ class User extends Model
         $stmt->execute([$name, $email, $hashedPassword]);
 
         $userId = self::$pdo->lastInsertId();
+
+        // Insert default settings for the new user
+        $stmtSettings = self::$pdo->prepare("INSERT INTO user_settings (user_id, notifications, dark_mode, privacy_mode) VALUES (?, ?, ?, ?)");
+        // default: notifications=1 (true), dark_mode=0 (false), privacy_mode=0 (false)
+        $stmtSettings->execute([$userId, 1, 0, 0]);
+
         return $this->findById($userId);
     }   
 
