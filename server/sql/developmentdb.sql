@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: May 29, 2025 at 02:23 PM
+-- Generation Time: May 29, 2025 at 03:05 PM
 -- Server version: 11.7.2-MariaDB-ubu2404
 -- PHP Version: 8.2.28
 
@@ -36,6 +36,19 @@ CREATE TABLE `friend_requests` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
+--
+-- Dumping data for table `friend_requests`
+--
+
+INSERT INTO `friend_requests` (`id`, `sender_id`, `receiver_id`, `status`, `created_at`, `updated_at`) VALUES
+(9, 15, 16, 'accepted', '2025-05-29 14:28:24', '2025-05-29 14:28:56'),
+(10, 15, 17, 'accepted', '2025-05-29 14:28:26', '2025-05-29 14:29:00'),
+(11, 15, 18, 'accepted', '2025-05-29 14:28:28', '2025-05-29 14:29:03'),
+(12, 15, 19, 'accepted', '2025-05-29 14:28:29', '2025-05-29 14:29:05'),
+(13, 15, 20, 'declined', '2025-05-29 14:28:31', '2025-05-29 14:29:08'),
+(15, 21, 15, 'pending', '2025-05-29 14:32:09', '2025-05-29 14:32:09'),
+(16, 24, 15, 'pending', '2025-05-29 14:33:27', '2025-05-29 14:33:27');
+
 -- --------------------------------------------------------
 
 --
@@ -65,7 +78,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `created_at`, `status`, 
 (19, 'Ethan Hunt', 'ethan@example.com', '$2y$12$41JMGO4OHYnQi.0a0XC02ObRSb6hzEyF8DL6h/kSPe8Gj9DoAJITO', '2025-05-29 14:17:58', 'Active', 'Traveler and photography lover.', 'https://randomuser.me/api/portraits/men/3.jpg'),
 (20, 'Fiona Glenanne', 'fiona@example.com', '$2y$12$RC9pA3TJsud5Z5GpCrjxoOvxA9DQcba03rixD/V9fcQ2LNzLE8n6u', '2025-05-29 14:18:32', 'Active', 'Chef and food blogger.', 'https://randomuser.me/api/portraits/women/3.jpg'),
 (21, 'George Clooney', 'george@example.com', '$2y$12$rtYXd00cc3GAiv6ViadlVu9EqKyszZBUDAErLfEcce7LCvFFpz1ou', '2025-05-29 14:18:43', 'Active', 'Movie buff and amateur filmmaker.', 'https://randomuser.me/api/portraits/men/4.jpg'),
-(22, 'Hannah Montana', 'hannah@example.com', '$2y$12$GyRXAaPC8VOc5ckHEGPRLulOhsH3dbziKz.C6xLlmtpVwG8kbAgCO', '2025-05-29 14:18:50', 'Active', 'Musician and songwriter.', 'https://randomuser.me/api/portraits/women/4.jpg'),
+(22, 'Hannah Montana', 'hannah@example.com', '$2y$12$GyRXAaPC8VOc5ckHEGPRLulOhsH3dbziKz.C6xLlmtpVwG8kbAgCO', '2025-05-29 14:18:50', 'Busy', 'Musician and songwriter.', 'https://randomuser.me/api/portraits/women/4.jpg'),
 (23, 'Ian Somerhalder', 'ian@example.com', '$2y$12$/NKmPLwYb.67GRC2rZ1nTu6hRNIw3Lq1nxo/shu1tx4lw/B/gNIj.', '2025-05-29 14:18:59', 'Active', 'Environmental activist.', 'https://randomuser.me/api/portraits/men/5.jpg'),
 (24, 'Julia Roberts', 'julia@example.com', '$2y$12$sYkT8XQbpz0N2wc6ES7Yq.gBKqlXgUJxnafN5CtUInhLgGzXR.JW2', '2025-05-29 14:19:09', 'Active', 'Actress and humanitarian.', 'https://randomuser.me/api/portraits/women/5.jpg');
 
@@ -96,7 +109,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `friend_requests`
 --
 ALTER TABLE `friend_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `users`
