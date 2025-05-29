@@ -54,6 +54,11 @@ try {
         $authController->isMe($id);
     }, 'get');
 
+    Route::add('/auth/update-profile', function () {
+        $authController = new AuthController();
+        $authController->updateStatusAbout();
+    }, ['put']);
+
     /**
      * Article routes
      */

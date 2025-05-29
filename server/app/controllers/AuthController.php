@@ -79,6 +79,7 @@ class AuthController extends Controller
             'email' => $user['email'],
             'name' => $user['name'],
             'status' => $user['status'] ?? null,
+            'about' => $user['about'] ?? null,
             'avatar' => $user['avatar'] ?? null
         ]);
     }
@@ -104,5 +105,27 @@ class AuthController extends Controller
     {
         $this->validateIsMe($id);
         ResponseService::Send(['message' => 'You are authorized to access this resource']);
+    }
+
+    public function updateStatusAbout()
+    {
+        $authenticatedUser = $this->getAuthenticatedUser();
+        $data = $this->decodePostData();
+
+        if (!isset($data['status']) && !isset($data['about'])) {
+            ResponseService::Error('No status or about data provided', 400);
+            return;
+        }
+
+        $status = $data['status'] ?? null;
+        $about = $data['about'] ?? null;
+
+        $updated = $this->userModel->updateStatusAbout($authenticatedUser->id, $status, $about);
+
+        if ($updated) {
+            ResponseService::Send(['message' => 'Profile updated successfully']);
+        } else {
+            ResponseService::Error('Failed to update profile', 500);
+        }
     }
 }

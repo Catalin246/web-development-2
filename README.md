@@ -1,4 +1,6 @@
 # Web Development 2
 
 to do:
-- update the user statud and about
+- request friends
+- accept/decline friend requests
+- see my friends

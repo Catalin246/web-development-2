@@ -47,4 +47,15 @@ class User extends Model
         $stmt->execute([$id]);
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
+
+    public function updateStatusAbout($userId, $status, $about)
+    {
+        $sql = "UPDATE users SET status = :status, about = :about WHERE id = :id";
+        $stmt = self::$pdo->prepare($sql);
+        return $stmt->execute([
+            ':status' => $status,
+            ':about' => $about,
+            ':id' => $userId
+        ]);
+    }
 }

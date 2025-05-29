@@ -34,6 +34,7 @@
       </div>
 
       <button
+        @click="updateProfile"
         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
       >
         Save
@@ -70,4 +71,29 @@ onMounted(async () => {
     console.error('Failed to fetch user info:', error)
   }
 })
+
+const updateProfile = async () => {
+  try {
+    const token = localStorage.getItem('token')
+
+    const response = await axios.put(
+      `${apiUrl}/auth/update-profile`,
+      {
+        status: user.value.status,
+        about: user.value.about
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+
+    alert('Profile updated successfully!')
+  } catch (error) {
+    console.error('Profile update failed:', error)
+    alert('Failed to update profile')
+  }
+}
 </script>
