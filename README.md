@@ -1,6 +1,5 @@
 # Web Development 2
 
 to do:
-- request friends
-- accept/decline friend requests
-- see my friends
+- friends message when no data
+- test if the db works
