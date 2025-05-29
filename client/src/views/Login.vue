@@ -64,7 +64,7 @@ async function handleLogin() {
       // Check if a token is returned in the response
       if (data.token) {
         // Store the token (example: localStorage or Vuex store)
-        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('token', data.token);
 
         // Redirect to the chats page after successful login
         router.push('/chats');

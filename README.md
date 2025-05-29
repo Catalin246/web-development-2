@@ -1,4 +1,4 @@
 # Web Development 2
 
 to do:
-- login/register api
+- display user profile (profile page)

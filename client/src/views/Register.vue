@@ -42,10 +42,36 @@ const name = ref('')
 const email = ref('')
 const password = ref('')
 
-function handleRegister() {
-  // TODO: Replace with real registration logic
+// Get API URL
+const apiUrl = import.meta.env.VITE_API_URL
+
+async function handleRegister() {
   if (name.value && email.value && password.value) {
-    router.push('/chats')
+    try {
+      const response = await fetch(`${apiUrl}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: name.value,
+          email: email.value,
+          password: password.value,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Registration failed')
+      }
+
+      // Redirect to login page with pre-filled credentials
+      router.push({
+        path: '/login',
+      })
+    } catch (error) {
+      console.error('Registration error:', error)
+      // Optional: show error to user
+    }
   }
 }
 </script>

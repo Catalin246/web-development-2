@@ -1,4 +1,3 @@
-// src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
 
 import AppLayout from '../layouts/AppLayout.vue'
@@ -33,6 +32,22 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes
+})
+
+function isAuthenticated() {
+  return !!localStorage.getItem('token')
+}
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/register']
+  const authRequired = !publicPages.includes(to.path)
+  const loggedIn = isAuthenticated()
+
+  if (authRequired && !loggedIn) {
+    return next('/login')
+  }
+
+  next()
 })
 
 export default router

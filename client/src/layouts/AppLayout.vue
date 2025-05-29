@@ -1,19 +1,32 @@
 <!-- src/layouts/AppLayout.vue -->
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import NavIcon from '../components/NavIcon.vue'
 
 const route = useRoute()
+const router = useRouter()
+
+function logout() {
+  localStorage.removeItem('token')
+  router.push('/login')
+}
 </script>
 
 <template>
   <div class="w-screen h-screen overflow-hidden flex flex-col bg-white">
     <header class="fixed top-0 left-0 w-full z-10 bg-blue-600 text-white p-5 flex justify-between items-center shadow-xl rounded-b-2xl md:rounded-none">
       <h1 class="font-medium text-xl">Chat App</h1>
-      <router-link to="/friend-request">
-        <i class="fas fa-plus text-2xl cursor-pointer hover:text-gray-300"></i>
-      </router-link>
-    </header> 
+      <div class="flex items-center space-x-4">
+        <router-link to="/friend-request">
+          <i class="fas fa-plus text-2xl cursor-pointer hover:text-gray-300"></i>
+        </router-link>
+
+        <!-- Logout icon -->
+        <button @click="logout">
+          <i class="fas fa-sign-out-alt text-2xl cursor-pointer hover:text-gray-300"></i>
+        </button>
+      </div>
+    </header>           
 
     <div class="flex flex-1 h-full py-16 md:py-0 md:pt-16 md:mb-0 overflow-y-auto">
       <aside class="hidden md:flex flex-col w-[6%] bg-gray-100 py-4 items-center space-y-6">
