@@ -5,16 +5,20 @@ import ChatsView from '../views/ChatsView.vue'
 import GroupsView from '../views/GroupsView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import MoreView from '../views/MoreView.vue'
-import FriendRequest from '../views/FriendRequest.vue'
+
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 
+import AddFriendsView from '../views/AddFriendsView.vue'
+import FriendsRequestsView from '../views/FriendsRequestsView.vue'
+import FriendsListView from '../views/FriendsListView.vue'
+
 const routes = [
-  // Public pages (outside layout)
+  // Public
   { path: '/login', component: Login },
   { path: '/register', component: Register },
 
-  // Layout wrapper
+  // Private (in layout)
   {
     path: '/',
     component: AppLayout,
@@ -24,7 +28,11 @@ const routes = [
       { path: 'groups', component: GroupsView },
       { path: 'profile', component: ProfileView },
       { path: 'more', component: MoreView },
-      { path: 'friend-request', component: FriendRequest }
+
+      // New pages
+      { path: 'add-friends', component: AddFriendsView },
+      { path: 'friend-requests', component: FriendsRequestsView },
+      { path: 'friends', component: FriendsListView }
     ]
   }
 ]
