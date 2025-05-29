@@ -1,7 +1,8 @@
 <template>
   <div class="p-4 py-6 md:p-16 md:py-10 w-full">
     <h2 class="text-2xl font-semibold mb-4">Your Friends</h2>
-    <ul class="space-y-2">
+
+    <ul v-if="friends.length > 0" class="space-y-2">
       <li
         v-for="friend in friends"
         :key="friend.id"
@@ -17,6 +18,10 @@
         <!-- TODO: Implement chat feature when ready -->
       </li>
     </ul>
+
+    <p v-else class="text-gray-500 italic mt-4">
+      You have no friends yet. Try adding some!
+    </p>
   </div>
 </template>
 

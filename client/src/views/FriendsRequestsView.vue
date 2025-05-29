@@ -1,7 +1,8 @@
 <template>
   <div class="p-4 py-6 md:p-16 md:py-10 w-full">
     <h2 class="text-2xl font-semibold mb-4">Friend Requests</h2>
-    <ul class="space-y-2">
+
+    <ul v-if="requests.length > 0" class="space-y-2">
       <li
         v-for="request in requests"
         :key="request.id"
@@ -27,6 +28,10 @@
         </div>
       </li>
     </ul>
+
+    <p v-else class="text-gray-500 italic mt-4">
+      You have no pending friend requests.
+    </p>
   </div>
 </template>
 
@@ -61,7 +66,6 @@ const respondToRequest = async (requestId, status) => {
         },
       }
     )
-    // Remove the request from the list after update
     requests.value = requests.value.filter((r) => r.id !== requestId)
   } catch (error) {
     console.error(`Failed to ${status} request:`, error)

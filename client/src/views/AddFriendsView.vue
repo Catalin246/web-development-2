@@ -9,7 +9,7 @@
       class="w-full p-2 border border-gray-300 rounded-md mb-4"
     />
 
-    <ul class="space-y-2">
+    <ul class="space-y-2" v-if="filteredResults.length > 0">
       <li
         v-for="(result, index) in filteredResults"
         :key="result.id"
@@ -27,6 +27,10 @@
         </button>
       </li>
     </ul>
+
+    <p v-else class="text-gray-500 italic mt-4">
+      No friend recommendations found. Try searching for someone specific!
+    </p>
   </div>
 </template>
 
