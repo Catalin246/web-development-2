@@ -11,8 +11,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use App\Services\EnvService;
 use App\Services\ErrorReportingService;
 use App\Services\ResponseService;
-use App\Controllers\ArticleController;
 use App\Controllers\AuthController;
+use App\Controllers\FriendRequestController;
 
 // require vendor libraries
 use Steampixel\Route;
@@ -25,6 +25,19 @@ ErrorReportingService::Init();
 
 // set CORS headers
 ResponseService::SetCorsHeaders();
+
+/**
+ * Helper to protect routes with token authentication
+ */
+function authorizeAndRun(callable $callback) {
+    $controller = new AuthController();
+    try {
+        $user = $controller->getAuthenticatedUser(); // throws if unauthorized
+        $callback($user);
+    } catch (\Exception $e) {
+        ResponseService::Error('Unauthorized', 401);
+    }
+}
 
 /**
  * Main application routes
@@ -60,39 +73,32 @@ try {
     }, ['put']);
 
     /**
-     * Article routes
+     * Friend Requests routes (protected)
      */
-    // paginated get all articles route: /articles?page=1
-    Route::add('/articles', function () {
-        $articleController = new ArticleController();
-        $articleController->getAll();
-    });
-    // get article by id
-    Route::add('/articles/([a-z-0-9-]*)', function ($id) {
-        $articleController = new ArticleController();
-        $articleController->get($id);
-    });
-    // create article route
-    Route::add('/articles', function () {
-        $articleController = new ArticleController();
-        $articleController->create($_POST);
-    }, ["post"]);
-    // update article by id
-    Route::add('/articles/([0-9]*)', function ($id) {
-        sleep(3); // adding a timeout to demonstrate UI loading state
-        $articleController = new ArticleController();
-        $articleController->update($id);
-    }, 'put');
-    // delete article by id
-    Route::add('/articles/([0-9]*)', function ($id) {
-        $articleController = new ArticleController();
-        $articleController->delete($id);
-    }, 'delete');
-    // generate qr code for article
-    Route::add('/articles/qr-code/([a-z-0-9-]*)', function ($id) {
-        $articleController = new ArticleController();
-        $articleController->getQrCode($id);
-    });
+
+    // Send a friend request
+    Route::add('/friend-requests', function () {
+        authorizeAndRun(function ($user) {
+            $friendRequestController = new FriendRequestController();
+            $friendRequestController->sendRequest();
+        });
+    }, ['post']);
+
+    // List received friend requests
+    Route::add('/friend-requests', function () {
+        authorizeAndRun(function ($user) {
+            $friendRequestController = new FriendRequestController();
+            $friendRequestController->listRequests();
+        });
+    }, ['get']);
+
+    // Respond to a friend request (accept/decline)
+    Route::add('/friend-requests/([0-9]+)', function ($id) {
+        authorizeAndRun(function ($user) use ($id) {
+            $friendRequestController = new FriendRequestController();
+            $friendRequestController->respondRequest($id);
+        });
+    }, ['put']);
 
     /**
      * 404 route handler
@@ -101,13 +107,12 @@ try {
         ResponseService::Error("route is not defined", 404);
     });
 } catch (\Throwable $error) {
-    if ($_ENV["environment" == "LOCAL"]) {
+    if ($_ENV["environment"] == "LOCAL") {
         var_dump($error);
     } else {
         error_log($error);
     }
     ResponseService::Error("A server error occurred");
 }
-
 
 Route::run();
