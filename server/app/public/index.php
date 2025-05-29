@@ -13,6 +13,7 @@ use App\Services\ErrorReportingService;
 use App\Services\ResponseService;
 use App\Controllers\AuthController;
 use App\Controllers\FriendRequestController;
+use App\Controllers\UserSettingController;
 
 // require vendor libraries
 use Steampixel\Route;
@@ -110,6 +111,24 @@ try {
         $controller = new FriendRequestController();
         $controller->getFriends();
     }, ['get']);
+
+     /**
+     * User Settings routes (protected)
+     */
+
+    Route::add('/settings', function () {
+        authorizeAndRun(function ($user) {
+            $controller = new UserSettingController();
+            $controller->get();
+        });
+    }, ['get']);
+
+    Route::add('/settings', function () {
+        authorizeAndRun(function ($user) {
+            $controller = new UserSettingController();
+            $controller->update();
+        });
+    }, ['put']);                                            
 
     /**
      * 404 route handler
