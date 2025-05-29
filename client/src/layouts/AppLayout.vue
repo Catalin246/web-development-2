@@ -21,16 +21,16 @@ function logout() {
       <!-- Desktop Icons -->
       <div class="hidden md:flex items-center space-x-4">
         <router-link to="/add-friends" title="Add Friends">
-          <i class="fas fa-user-plus text-xl cursor-pointer hover:text-gray-300"></i>
+          <i class="fas fa-user-plus text-lg cursor-pointer hover:text-gray-300"></i>
         </router-link>
         <router-link to="/friend-requests" title="Friend Requests">
-          <i class="fas fa-user-clock text-xl cursor-pointer hover:text-gray-300"></i>
+          <i class="fas fa-user-clock text-lg cursor-pointer hover:text-gray-300"></i>
         </router-link>
         <router-link to="/friends" title="Friends">
-          <i class="fas fa-user-friends text-xl cursor-pointer hover:text-gray-300"></i>
+          <i class="fas fa-user-friends text-lg cursor-pointer hover:text-gray-300"></i>
         </router-link>
         <button @click="logout" title="Logout">
-          <i class="fas fa-sign-out-alt text-2xl cursor-pointer hover:text-gray-300"></i>
+          <i class="fas fa-sign-out-alt text-xl cursor-pointer hover:text-gray-300"></i>
         </button>
       </div>
 
