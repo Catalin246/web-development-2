@@ -165,15 +165,25 @@ onUnmounted(() => {
     v-if="!selectedChat || windowWidth >= 768"
     class="w-full md:w-[30%] overflow-y-auto hide-scrollbar shadow-right"
   >
-    <div v-for="chat in calculatedChats" :key="chat.id" @click="openChat(chat)">
-      <ChatItem
-        :name="chat.name"
-        :avatar="chat.avatar"
-        :unread="chat.unread"
-        :lastMessage="chat.messages.length ? chat.messages[chat.messages.length - 1] : null"
-        :time="chat.messages.length ? chat.messages[chat.messages.length - 1].formattedTime : ''"
-      />
-    </div>
+    <template v-if="calculatedChats.length > 0">
+      <div v-for="chat in calculatedChats" :key="chat.id" @click="openChat(chat)">
+        <ChatItem
+          :name="chat.name"
+          :avatar="chat.avatar"
+          :unread="chat.unread"
+          :lastMessage="chat.messages.length ? chat.messages[chat.messages.length - 1] : null"
+          :time="chat.messages.length ? chat.messages[chat.messages.length - 1].formattedTime : ''"
+        />
+      </div>
+    </template>
+    <template v-else>
+      <div 
+        class="flex items-center justify-center h-full p-4 text-gray-500 italic text-center"
+        style="min-height: 200px;"
+      >
+        You have no group chats yet. Start or join a group to chat with multiple friends!
+      </div>
+    </template>
   </div>
 
   <!-- Chat Window -->
