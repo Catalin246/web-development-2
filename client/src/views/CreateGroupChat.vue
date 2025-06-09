@@ -23,6 +23,7 @@
           placeholder="Paste an image URL"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <p v-if="avatarError" class="text-red-600 text-sm mt-1">{{ avatarError }}</p>
       </div>
 
       <!-- Avatar Preview -->
@@ -51,7 +52,7 @@
       <div>
         <button
           @click="handleCreateGroup"
-          :disabled="!groupName || selectedFriendIds.length === 0"
+          :disabled="!groupName || selectedFriendIds.length === 0 || avatarError"
           class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg disabled:opacity-50"
         >
           Create Group
@@ -62,7 +63,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
@@ -74,8 +75,27 @@ const defaultGroupAvatar = 'https://cdn-icons-png.flaticon.com/512/921/921347.pn
 const previewAvatar = computed(() => avatarUrl.value || defaultGroupAvatar)
 
 const friends = ref([])
-
 const router = useRouter()
+
+const avatarError = ref('')
+
+function isValidUrl(string) {
+  try {
+    new URL(string)
+    return true
+  } catch (_) {
+    return false
+  }
+}
+
+// Watch avatarUrl and validate input live
+watch(avatarUrl, (newVal) => {
+  if (newVal && !isValidUrl(newVal)) {
+    avatarError.value = 'Please enter a valid URL.'
+  } else {
+    avatarError.value = ''
+  }
+})
 
 async function fetchFriends() {
   const token = localStorage.getItem('token')
@@ -92,6 +112,11 @@ async function fetchFriends() {
 async function handleCreateGroup() {
   if (selectedFriendIds.value.length < 3) {
     alert('Please add at least 3 members to the group.')
+    return
+  }
+
+  if (avatarUrl.value && !isValidUrl(avatarUrl.value)) {
+    alert('Please enter a valid Avatar URL.')
     return
   }
 
