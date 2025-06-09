@@ -19,9 +19,24 @@ function updateWidth() {
   windowWidth.value = window.innerWidth
 }
 
-function openChat(chat) {
+async function openChat(chat) {
   selectedChat.value = chat
   router.replace({ params: { chatId: chat.id } })
+
+  const token = localStorage.getItem('token')
+
+  try {
+    await axios.put(`${urlValue}/chats/${chat.id}/mark-read`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    // Optional: Refresh chats list after marking read
+    await fetchChats()
+  } catch (err) {
+    console.error('Failed to mark messages as read:', err)
+  }
 }
 
 async function fetchCurrentUser() {
