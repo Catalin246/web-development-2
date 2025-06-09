@@ -66,7 +66,7 @@ const emit = defineEmits(['toggleDropdown', 'action'])
 const showDropdown = computed(() => props.openDropdownId === props.id)
 
 const truncatedName = computed(() =>
-  props.name.length > 12 ? props.name.slice(0, 12) + '...' : props.name
+  props.name.length > 10 ? props.name.slice(0, 10) + '...' : props.name
 )
 
 const truncatedMessage = computed(() => {
