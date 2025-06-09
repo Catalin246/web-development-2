@@ -200,7 +200,7 @@ onUnmounted(() => {
   <!-- Placeholder when no chat is selected (desktop only) -->
   <div
     v-else
-    class="hidden md:flex w-[70%] items-center justify-center text-gray-500 text-md"
+    class="hidden md:flex w-[70%] items-center justify-center text-gray-500 text-md italic"
   >
     Select a chat to start messaging
   </div>
