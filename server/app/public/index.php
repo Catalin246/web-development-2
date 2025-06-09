@@ -182,6 +182,15 @@ try {
         });
     }, ['get']);
 
+    // Mark messages as read in a chat (except those sent by the user)
+    Route::add('/chats/([0-9]+)/mark-read', function ($chatId) {
+        authorizeAndRun(function ($user) use ($chatId) {
+            $controller = new ChatController();
+            $controller->markMessagesAsRead($chatId);
+        });
+    }, ['put']);
+
+
     /**
      * 404 route handler
      */

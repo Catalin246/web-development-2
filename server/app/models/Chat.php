@@ -86,4 +86,18 @@ class Chat extends Model
         $stmt->execute([$userId]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public function markMessagesAsRead($chatId, $userId)
+    {
+        $stmt = self::$pdo->prepare("
+            UPDATE messages
+            SET `read` = 1
+            WHERE chat_id = :chatId AND sender_id != :userId AND `read` = 0
+        ");
+        $stmt->execute([
+            'chatId' => $chatId,
+            'userId' => $userId
+        ]);
+    }
+
 }

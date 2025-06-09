@@ -143,4 +143,16 @@ class ChatController extends Controller
             ResponseService::Error('Failed to fetch chats: ' . $e->getMessage(), 500);
         }
     }
+
+    public function markMessagesAsRead($chatId)
+    {
+        $authenticatedUser = $this->getAuthenticatedUser();
+
+        try {
+            $this->chatModel->markMessagesAsRead($chatId, $authenticatedUser->id);
+            ResponseService::Send(['status' => 'Messages marked as read']);
+        } catch (\Exception $e) {
+            ResponseService::Error('Failed to update messages: ' . $e->getMessage(), 500);
+        }
+    }
 }
