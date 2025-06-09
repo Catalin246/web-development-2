@@ -127,7 +127,7 @@ const sendMessage = async () => {
     )
 
     messageText.value = ''
-    emit('refresh-chat', props.chat.id)  // Emit event to refresh messages
+    emit('refresh-chat', props.chat.id)  
 
   } catch (error) {
     console.error('Failed to send message:', error)
