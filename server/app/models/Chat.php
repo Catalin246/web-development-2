@@ -100,4 +100,28 @@ class Chat extends Model
         ]);
     }
 
+    public function deleteChat($chatId)
+    {
+        // Start transaction to maintain data integrity
+        self::$pdo->beginTransaction();
+
+        try {
+            // Delete messages associated with the chat
+            $stmtMessages = self::$pdo->prepare("DELETE FROM messages WHERE chat_id = ?");
+            $stmtMessages->execute([$chatId]);
+
+            // Delete participants associated with the chat
+            $stmtParticipants = self::$pdo->prepare("DELETE FROM chat_participants WHERE chat_id = ?");
+            $stmtParticipants->execute([$chatId]);
+
+            // Delete the chat itself
+            $stmtChat = self::$pdo->prepare("DELETE FROM chats WHERE id = ?");
+            $stmtChat->execute([$chatId]);
+
+            self::$pdo->commit();
+        } catch (\Exception $e) {
+            self::$pdo->rollBack();
+            throw $e;
+        }
+    }
 }

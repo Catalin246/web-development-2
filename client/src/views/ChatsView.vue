@@ -13,6 +13,9 @@ const windowWidth = ref(window.innerWidth)
 const currentUser = ref(null)
 const chats = ref([])
 
+// New: track which dropdown is open
+const openDropdownId = ref(null)
+
 const urlValue = import.meta.env.VITE_API_URL
 
 function updateWidth() {
@@ -68,12 +71,9 @@ async function fetchChats() {
         }))
         const unread = messages.filter(m => !m.read && m.from !== currentUser.value.id).length
 
-        let displayName = chat.name
-        let displayAvatar = chat.avatar
-
         const other = chat.participants.find(p => p.id !== currentUser.value.id)
-        displayName = other?.name || 'Chat'
-        displayAvatar = other?.avatar || null
+        const displayName = other?.name || 'Chat'
+        const displayAvatar = other?.avatar || null
 
         return {
           ...chat,
@@ -136,7 +136,7 @@ watch(() => route.params.chatId, (newChatId) => {
 
 // Handler to refresh a single chat's messages after send
 async function handleRefreshChat() {
-  fetchChats()
+  await fetchChats()
 
   // Reassign the selectedChat using the chatId in the route
   const chatIdFromUrl = route.params.chatId
@@ -148,14 +148,85 @@ async function handleRefreshChat() {
   }
 }
 
+// New: toggle dropdown open/close by chat id
+function handleToggleDropdown(id) {
+  if (openDropdownId.value === id) {
+    openDropdownId.value = null
+  } else {
+    openDropdownId.value = id
+  }
+}
+
+// New: close dropdown if clicked outside chat items
+function handleClickOutside(e) {
+  if (!e.target.closest('.chat-item')) {
+    openDropdownId.value = null
+  }
+}
+
+function handleAction({ type, chatId }) {
+  openDropdownId.value = null
+
+  switch (type) {
+    case 'open':
+      break
+    case 'mute':
+      handleMute(chatId)
+      break
+    case 'more':
+      handleMore(chatId)
+      break
+    case 'delete':
+      handleDelete(chatId)
+      break
+    default:
+      console.warn('Unknown action:', type)
+  }
+}
+
+function handleMute(chatId) {
+  // Implement mute logic here
+  console.log(`Mute notifications for chat ${chatId}`)
+  // e.g., API call or state update
+}
+
+function handleMore(chatId) {
+  // Implement more info logic here
+  console.log(`Show more info for chat ${chatId}`)
+  // e.g., open a modal or route to details page
+}
+
+async function handleDelete(chatId) {
+  // Implement delete logic here
+  const confirmed = confirm('Are you sure you want to delete this chat?')
+  if (!confirmed) return
+
+  try {
+    const token = localStorage.getItem('token')
+    await axios.delete(`${urlValue}/chats/${chatId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    console.log(`Chat ${chatId} deleted`)
+    await fetchChats()
+    if (selectedChat.value?.id === chatId) {
+      selectedChat.value = null
+      router.replace({ params: { chatId: undefined } })
+    }
+  } catch (err) {
+    console.error('Failed to delete chat:', err)
+  }
+}
+
 onMounted(async () => {
   window.addEventListener('resize', updateWidth)
+  document.addEventListener('click', handleClickOutside)
   await fetchCurrentUser()
   if (currentUser.value) await fetchChats()
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', updateWidth)
+  document.removeEventListener('click', handleClickOutside)
 })
 </script>
 
@@ -166,18 +237,27 @@ onUnmounted(() => {
     class="w-full md:w-[30%] overflow-y-auto hide-scrollbar shadow-right"
   >
     <template v-if="calculatedChats.length > 0">
-      <div v-for="chat in calculatedChats" :key="chat.id" @click="openChat(chat)">
+      <div
+        v-for="chat in calculatedChats"
+        :key="chat.id"
+        class="chat-item"
+        @click="openChat(chat)"
+      >
         <ChatItem
+          :id="chat.id"
           :name="chat.name"
           :avatar="chat.avatar"
           :unread="chat.unread"
           :lastMessage="chat.messages.length ? chat.messages[chat.messages.length - 1] : null"
           :time="chat.messages.length ? chat.messages[chat.messages.length - 1].formattedTime : ''"
+          :openDropdownId="openDropdownId"
+          @toggleDropdown="handleToggleDropdown"
+          @action="(type) => handleAction({ type, chatId: chat.id })"
         />
       </div>
     </template>
     <template v-else>
-      <div 
+      <div
         class="flex items-center justify-center h-full p-4 text-gray-500 italic text-center"
         style="min-height: 200px;"
       >

@@ -155,4 +155,25 @@ class ChatController extends Controller
             ResponseService::Error('Failed to update messages: ' . $e->getMessage(), 500);
         }
     }
+
+    public function deleteChat($chatId)
+    {
+        $authenticatedUser = $this->getAuthenticatedUser();
+
+        try {
+            // Optionally, you can check if the user is a participant before deleting
+            $participants = $this->chatModel->getParticipants($chatId);
+            $participantIds = array_column($participants, 'id');
+            if (!in_array($authenticatedUser->id, $participantIds)) {
+                ResponseService::Error('Unauthorized to delete this chat', 403);
+                return;
+            }
+
+            $this->chatModel->deleteChat($chatId);
+
+            ResponseService::Send(['status' => 'Chat deleted successfully']);
+        } catch (\Exception $e) {
+            ResponseService::Error('Failed to delete chat: ' . $e->getMessage(), 500);
+        }
+    }
 }

@@ -190,6 +190,14 @@ try {
         });
     }, ['put']);
 
+    // Delete a chat by ID
+    Route::add('/chats/([0-9]+)', function ($chatId) {
+        authorizeAndRun(function ($user) use ($chatId) {
+            $controller = new ChatController();
+            $controller->deleteChat($chatId);
+        });
+    }, ['delete']);
+
 
     /**
      * 404 route handler

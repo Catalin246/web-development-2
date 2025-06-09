@@ -1,24 +1,16 @@
 <template>
-  <div class="flex items-center gap-4 p-5 hover:bg-gray-100 cursor-pointer relative group">
+  <div class="chat-item flex items-center gap-4 p-5 hover:bg-gray-100 cursor-pointer relative group">
     <!-- Avatar -->
     <img :src="avatar" alt="avatar" class="w-12 h-12 rounded-full" />
 
     <!-- Info -->
     <div class="md:max-w-39 flex-1">
       <div class="flex justify-between">
-        <span class="font-semibold">{{ name.length > 12 ? name.slice(0, 12) + '...' : name }}</span>
+        <span class="font-semibold">{{ truncatedName }}</span>
         <span class="text-xs text-gray-500">{{ time }}</span>
       </div>
       <div class="flex justify-between items-center">
-        <span class="text-sm text-gray-700 truncate w-full">
-          {{
-            lastMessage?.text
-              ? lastMessage.text.length > 25
-                ? lastMessage.text.slice(0, 25) + '...'
-                : lastMessage.text
-              : 'No messages yet'
-          }}
-        </span>
+        <span class="text-sm text-gray-700 truncate w-full">{{ truncatedMessage }}</span>
         <span
           v-if="unread > 0"
           class="bg-blue-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center ml-2"
@@ -32,6 +24,7 @@
     <button
       @click.stop="toggleDropdown"
       class="p-2 rounded-full hover:bg-gray-200 ml-2"
+      aria-label="Open dropdown menu"
     >
       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v.01M12 12v.01M12 18v.01" />
@@ -55,40 +48,41 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
+  id: [String, Number],
   name: String,
   avatar: String,
   time: String,
   unread: Number,
-  lastMessage: Object
+  lastMessage: Object,
+  openDropdownId: [String, Number, null]
 })
 
-const emit = defineEmits(['action'])
+const emit = defineEmits(['toggleDropdown', 'action'])
 
-const showDropdown = ref(false)
+// Show dropdown only if parent openDropdownId matches this id
+const showDropdown = computed(() => props.openDropdownId === props.id)
+
+const truncatedName = computed(() =>
+  props.name.length > 12 ? props.name.slice(0, 12) + '...' : props.name
+)
+
+const truncatedMessage = computed(() => {
+  if (props.lastMessage?.text) {
+    return props.lastMessage.text.length > 25
+      ? props.lastMessage.text.slice(0, 25) + '...'
+      : props.lastMessage.text
+  }
+  return 'No messages yet'
+})
 
 function toggleDropdown() {
-  showDropdown.value = !showDropdown.value
+  emit('toggleDropdown', props.id)
 }
 
 function emitAction(type) {
   emit('action', type)
-  showDropdown.value = false
 }
-
-function handleClickOutside(e) {
-  if (!e.target.closest('.group')) {
-    showDropdown.value = false
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
 </script>
