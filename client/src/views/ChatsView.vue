@@ -21,7 +21,6 @@ function updateWidth() {
 
 function openChat(chat) {
   selectedChat.value = chat
-  // Update URL to reflect selected chatId
   router.replace({ params: { chatId: chat.id } })
 }
 
@@ -70,7 +69,6 @@ async function fetchChats() {
       }
     })
 
-    // After loading chats, check if URL has chatId param
     const chatIdFromUrl = route.params.chatId
     if (chatIdFromUrl) {
       const chatToOpen = chats.value.find(c => String(c.id) === String(chatIdFromUrl))
@@ -107,20 +105,33 @@ const calculatedChats = computed(() => {
   }))
 })
 
-// Watch route param changes to open chats accordingly
+// Watch for URL chatId param changes
 watch(() => route.params.chatId, (newChatId) => {
   if (newChatId) {
     const chatToOpen = chats.value.find(c => String(c.id) === String(newChatId))
     if (chatToOpen) {
       selectedChat.value = chatToOpen
     } else {
-      // Chat not found, clear selectedChat or handle error
       selectedChat.value = null
     }
   } else {
     selectedChat.value = null
   }
 })
+
+// Handler to refresh a single chat's messages after send
+async function handleRefreshChat() {
+  fetchChats()
+
+  // Reassign the selectedChat using the chatId in the route
+  const chatIdFromUrl = route.params.chatId
+  if (chatIdFromUrl) {
+    const updatedChat = chats.value.find(c => String(c.id) === String(chatIdFromUrl))
+    if (updatedChat) {
+      selectedChat.value = updatedChat
+    }
+  }
+}
 
 onMounted(async () => {
   window.addEventListener('resize', updateWidth)
@@ -139,7 +150,7 @@ onUnmounted(() => {
     v-if="!selectedChat || windowWidth >= 768"
     class="w-full md:w-[30%] overflow-y-auto hide-scrollbar shadow-right"
   >
-    <div v-for="chat in calculatedChats" :key="chat.name" @click="openChat(chat)">
+    <div v-for="chat in calculatedChats" :key="chat.id" @click="openChat(chat)">
       <ChatItem
         :name="chat.name"
         :avatar="chat.avatar"
@@ -158,7 +169,7 @@ onUnmounted(() => {
     <div class="md:hidden mb-4">
       <button @click="selectedChat = null" class="text-blue-600">&larr; Back</button>
     </div>
-    <ChatWindow :chat="selectedChat" />
+    <ChatWindow :chat="selectedChat" @refresh-chat="handleRefreshChat" />
   </div>
 
   <!-- Placeholder when no chat is selected (desktop only) -->

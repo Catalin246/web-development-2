@@ -55,6 +55,7 @@
     <div class="border-t pt-4">
       <div class="flex gap-2 items-end">
         <textarea
+          v-model="messageText"
           placeholder="Type your message..."
           rows="1"
           oninput="this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 200) + 'px';"
@@ -63,6 +64,7 @@
         ></textarea>
         <button
           type="button"
+          @click="sendMessage"
           class="p-2 px-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
         >
           <i class="fas fa-paper-plane"></i>
@@ -80,8 +82,11 @@ const props = defineProps({
   chat: Object
 })
 
+const emit = defineEmits(['refresh-chat'])
+
 const bottomRef = ref(null)
 const currentUserId = ref(null)
+const messageText = ref('')
 const urlValue = import.meta.env.VITE_API_URL
 
 async function fetchCurrentUser() {
@@ -109,4 +114,23 @@ onMounted(async () => {
 watch(() => props.chat, () => {
   scrollToBottom()
 }, { deep: true })
+
+const sendMessage = async () => {
+  if (!messageText.value.trim()) return
+
+  try {
+    const token = localStorage.getItem('token')
+    await axios.post(
+      `${urlValue}/chats/${props.chat.id}/messages`,
+      { text: messageText.value },
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+
+    messageText.value = ''
+    emit('refresh-chat', props.chat.id)  // Emit event to refresh messages
+
+  } catch (error) {
+    console.error('Failed to send message:', error)
+  }
+}
 </script>
