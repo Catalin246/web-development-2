@@ -64,17 +64,18 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
+import { useRouter } from 'vue-router'
 
 const groupName = ref('')
 const avatarUrl = ref('')
 const selectedFriendIds = ref([])
 
-// Fallback default group avatar
 const defaultGroupAvatar = 'https://cdn-icons-png.flaticon.com/512/921/921347.png'
 const previewAvatar = computed(() => avatarUrl.value || defaultGroupAvatar)
 
-// Fetch friend list from API or use dummy data
 const friends = ref([])
+
+const router = useRouter()
 
 async function fetchFriends() {
   const token = localStorage.getItem('token')
@@ -82,7 +83,6 @@ async function fetchFriends() {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/friends/list`, {
       headers: { Authorization: `Bearer ${token}` }
     })
-    // Assign the response data directly because it's an array
     friends.value = res.data
   } catch (err) {
     console.error('Failed to fetch friends. Using dummy list.')
@@ -104,13 +104,17 @@ async function handleCreateGroup() {
   }
 
   try {
-    await axios.post(`${import.meta.env.VITE_API_URL}/chats`, payload, {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/chats`, payload, {
       headers: { Authorization: `Bearer ${token}` }
     })
+
+    const newChatId = res.data.chat.id
 
     groupName.value = ''
     avatarUrl.value = ''
     selectedFriendIds.value = []
+
+    router.push(`/groups/${newChatId}`)
   } catch (err) {
     console.error('Failed to create group chat:', err)
     alert('Something went wrong.')

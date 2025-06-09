@@ -26,7 +26,7 @@ const routes = [
     children: [
       { path: '', redirect: '/chats' },
       { path: 'chats/:chatId?', component: ChatsView },
-      { path: 'groups', component: GroupsView },
+      { path: 'groups/:chatId?', component: GroupsView },
       { path: 'profile', component: ProfileView },
       { path: 'more', component: MoreView },
       { path: 'add-friends', component: AddFriendsView },
