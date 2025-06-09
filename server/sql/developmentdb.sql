@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Jun 09, 2025 at 07:42 AM
+-- Generation Time: Jun 09, 2025 at 02:02 PM
 -- Server version: 11.7.2-MariaDB-ubu2404
 -- PHP Version: 8.2.28
 
@@ -35,6 +35,18 @@ CREATE TABLE `chats` (
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
+--
+-- Dumping data for table `chats`
+--
+
+INSERT INTO `chats` (`id`, `type`, `name`, `avatar`, `created_at`) VALUES
+(3, 'normal', 'Bob Smith', NULL, '2025-06-09 08:19:46'),
+(18, 'normal', 'Charlie Lee', NULL, '2025-06-09 10:47:20'),
+(19, 'group', 'Project Discussion', 'https://cdn-icons-png.flaticon.com/512/726/726623.png', '2025-06-09 11:17:53'),
+(20, 'group', 'Summer Trip', 'https://cdn-icons-png.flaticon.com/512/590/590685.png', '2025-06-09 12:06:32'),
+(30, 'normal', 'Diana Prince', NULL, '2025-06-09 13:47:24'),
+(33, 'group', 'Swimming Class', 'https://cdn-icons-png.flaticon.com/512/6213/6213559.png', '2025-06-09 13:52:33');
+
 -- --------------------------------------------------------
 
 --
@@ -45,6 +57,30 @@ CREATE TABLE `chat_participants` (
   `chat_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Dumping data for table `chat_participants`
+--
+
+INSERT INTO `chat_participants` (`chat_id`, `user_id`) VALUES
+(3, 15),
+(18, 15),
+(19, 15),
+(20, 15),
+(30, 15),
+(33, 15),
+(3, 16),
+(33, 16),
+(18, 17),
+(19, 17),
+(33, 17),
+(20, 18),
+(30, 18),
+(33, 18),
+(33, 19),
+(20, 20),
+(19, 21),
+(19, 22);
 
 -- --------------------------------------------------------
 
@@ -72,7 +108,8 @@ INSERT INTO `friend_requests` (`id`, `sender_id`, `receiver_id`, `status`, `crea
 (12, 15, 19, 'accepted', '2025-05-29 14:28:29', '2025-05-29 14:29:05'),
 (13, 15, 20, 'declined', '2025-05-29 14:28:31', '2025-05-29 14:29:08'),
 (15, 21, 15, 'pending', '2025-05-29 14:32:09', '2025-05-29 14:32:09'),
-(16, 24, 15, 'pending', '2025-05-29 14:33:27', '2025-05-29 14:33:27');
+(16, 24, 15, 'pending', '2025-05-29 14:33:27', '2025-05-29 14:33:27'),
+(17, 22, 15, 'pending', '2025-06-09 11:49:24', '2025-06-09 11:49:24');
 
 -- --------------------------------------------------------
 
@@ -88,6 +125,25 @@ CREATE TABLE `messages` (
   `timestamp` datetime NOT NULL,
   `read` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `chat_id`, `sender_id`, `text`, `timestamp`, `read`) VALUES
+(3, 3, 15, 'Hey!', '2025-06-09 08:43:50', 0),
+(4, 3, 15, 'I\'ll let you know when I ll be there', '2025-06-09 08:45:07', 0),
+(19, 18, 15, 'How are you Charlie?', '2025-06-09 10:47:35', 1),
+(20, 18, 15, 'Are you home today?', '2025-06-09 10:47:57', 1),
+(22, 18, 17, 'Around 10pm', '2025-06-09 10:51:25', 1),
+(23, 18, 15, 'Perfect! See you then', '2025-06-09 11:13:17', 0),
+(24, 19, 15, 'Hey all', '2025-06-09 11:22:50', 1),
+(25, 19, 15, 'We\'ll have the meeting toaday at 16.00', '2025-06-09 11:45:24', 1),
+(26, 19, 22, 'I will be late 5 min, I have to join another meeting', '2025-06-09 11:47:12', 1),
+(28, 19, 21, 'Do we need to prepare something?', '2025-06-09 11:51:31', 1),
+(29, 20, 15, 'Hello!', '2025-06-09 12:07:08', 0),
+(30, 30, 15, 'Hi Diana! Have time for a call', '2025-06-09 13:47:40', 0),
+(31, 33, 15, 'Hi everyone! Swimming class tmrw is canceled. See you next week!', '2025-06-09 13:53:30', 0);
 
 -- --------------------------------------------------------
 
@@ -207,19 +263,19 @@ ALTER TABLE `user_settings`
 -- AUTO_INCREMENT for table `chats`
 --
 ALTER TABLE `chats`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `friend_requests`
 --
 ALTER TABLE `friend_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `users`
