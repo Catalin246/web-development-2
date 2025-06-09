@@ -14,14 +14,14 @@
       <div
         v-for="(message, index) in chat.messages"
         :key="index"
-        :class="[ 
+        :class="[
           'flex items-end',
-          message.from === 1 ? 'justify-end' : 'justify-start'
+          message.from === currentUserId ? 'justify-end' : 'justify-start'
         ]"
       >
         <!-- Left side avatar for others -->
         <img
-          v-if="message.from !== 1"
+          v-if="message.from !== currentUserId"
           :src="chat.participants.find(p => p.id === message.from)?.avatar"
           alt="Avatar"
           class="w-6 h-6 rounded-full mr-2"
@@ -31,7 +31,7 @@
         <div
           :class="[
             'px-4 py-3 rounded-xl max-w-[70%]',
-            message.from === 1 ? 'bg-blue-100 text-right' : 'bg-gray-100 text-left'
+            message.from === currentUserId ? 'bg-blue-100 text-right' : 'bg-gray-100 text-left'
           ]"
         >
           <div class="text-sm">{{ message.text }}</div>
@@ -40,7 +40,7 @@
 
         <!-- Right side avatar for self -->
         <img
-          v-if="message.from === 1"
+          v-if="message.from === currentUserId"
           :src="chat.participants.find(p => p.id === message.from)?.avatar"
           alt="Avatar"
           class="w-6 h-6 rounded-full ml-2"
@@ -74,25 +74,38 @@
 
 <script setup>
 import { ref, onMounted, nextTick, watch } from 'vue'
+import axios from 'axios'
 
-// Props
 const props = defineProps({
   chat: Object
 })
 
-// Refs
 const bottomRef = ref(null)
+const currentUserId = ref(null)
+const urlValue = import.meta.env.VITE_API_URL
 
-// Function to scroll to bottom
+async function fetchCurrentUser() {
+  try {
+    const token = localStorage.getItem('token')
+    const res = await axios.get(`${urlValue}/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    currentUserId.value = res.data.id
+  } catch (err) {
+    console.error('Failed to fetch current user:', err)
+  }
+}
+
 const scrollToBottom = async () => {
   await nextTick()
   bottomRef.value?.scrollIntoView({ behavior: 'auto' })
 }
 
-// Scroll to bottom when the component first mounts
-onMounted(scrollToBottom)
+onMounted(async () => {
+  await fetchCurrentUser()
+  scrollToBottom()
+})
 
-// Scroll to bottom whenever a new chat is opened
 watch(() => props.chat, () => {
   scrollToBottom()
 }, { deep: true })
