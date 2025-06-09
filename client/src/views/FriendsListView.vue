@@ -12,10 +12,12 @@
           <img :src="friend.avatar" alt="avatar" class="w-8 h-8 rounded-full" />
           <span>{{ friend.name }}</span>
         </div>
-        <button class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+        <button
+          class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+          @click="startChatWith(friend)"
+        >
           Chat
         </button>
-        <!-- TODO: Implement chat feature when ready -->
       </li>
     </ul>
 
@@ -30,6 +32,7 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 const friends = ref([])
+const currentUser = ref(null)
 const urlValue = import.meta.env.VITE_API_URL
 
 const fetchFriends = async () => {
@@ -39,13 +42,48 @@ const fetchFriends = async () => {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
-    friends.value = response.data // Assign the array directly
+    friends.value = response.data
   } catch (error) {
     console.error('Failed to fetch friends:', error)
   }
 }
 
+const fetchCurrentUser = async () => {
+  try {
+    const response = await axios.get(`${urlValue}/auth/me`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+    currentUser.value = response.data
+  } catch (error) {
+    console.error('Failed to fetch current user:', error)
+  }
+}
+
+const startChatWith = async (friend) => {
+  if (!currentUser.value) return
+
+  const payload = {
+    participant_ids: [currentUser.value.id, friend.id],
+    name: `Chat with ${friend.name}`,
+  }
+
+  try {
+    const response = await axios.post(`${urlValue}/chats`, payload, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+    console.log('Chat created:', response.data)
+    // TO DO: Redirect to chat view here 
+  } catch (error) {
+    console.error('Failed to create chat:', error.response?.data || error.message)
+  }
+}
+
 onMounted(() => {
+  fetchCurrentUser()
   fetchFriends()
 })
 </script>
