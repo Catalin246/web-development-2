@@ -174,7 +174,7 @@ try {
         });
     }, ['get']);
 
-    // Ge chats for a user
+    // Get chats for a user
     Route::add('/chats', function () {
         authorizeAndRun(function ($user) {
             $controller = new ChatController();

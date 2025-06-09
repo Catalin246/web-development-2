@@ -104,7 +104,40 @@ class ChatController extends Controller
 
         try {
             $chats = $this->chatModel->getChatsForUser($authenticatedUser->id);
-            ResponseService::Send(['chats' => $chats]);
+
+            $result = [];
+            foreach ($chats as $chat) {
+                $participants = $this->chatModel->getParticipants($chat['id']);
+                $messages = $this->chatModel->getMessages($chat['id']);
+
+                // Map user data (id, name, avatar)
+                $participantsFormatted = array_map(function ($user) {
+                    return [
+                        'id' => $user['id'],
+                        'name' => $user['name'],
+                        'avatar' => $user['avatar'],
+                    ];
+                }, $participants);
+
+                $messagesFormatted = array_map(function ($msg) {
+                    return [
+                        'text' => $msg['text'],
+                        'timestamp' => $msg['timestamp'], // Assuming it's in ISO 8601 string format
+                        'read' => (bool)$msg['read'],
+                        'from' => $msg['sender_id'],
+                    ];
+                }, $messages);
+
+                $result[] = [
+                    'type' => $chat['type'],
+                    'name' => $chat['name'],
+                    'avatar' => $chat['avatar'],
+                    'participants' => $participantsFormatted,
+                    'messages' => $messagesFormatted
+                ];
+            }
+
+            ResponseService::Send(['chats' => $result]);
         } catch (\Exception $e) {
             ResponseService::Error('Failed to fetch chats: ' . $e->getMessage(), 500);
         }
