@@ -1,6 +1,14 @@
 <template>
   <div class="p-4 py-6 md:p-16 md:py-10 w-full">
-    <h2 class="text-2xl font-semibold mb-4">Your Friends</h2>
+    <h2 class="text-2xl font-semibold mb-4 flex items-center justify-between">
+      Your Friends
+      <button
+        @click="goToCreateGroup"
+        class="ml-4 bg-blue-600 text-white px-4 py-2 text-base rounded hover:bg-blue-700"
+      >
+        Create Group
+      </button>
+    </h2>
 
     <ul v-if="friends.length > 0" class="space-y-2">
       <li
@@ -65,57 +73,59 @@ const fetchCurrentUser = async () => {
 }
 
 const startChatWith = async (friend) => {
-  if (!currentUser.value) return;
+  if (!currentUser.value) return
 
   try {
     const chatsResponse = await axios.get(`${urlValue}/chats`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-    });
+    })
 
     const chats = Array.isArray(chatsResponse.data)
       ? chatsResponse.data
-      : chatsResponse.data.chats || [];
-      
+      : chatsResponse.data.chats || []
+
     const existingChat = chats.find(chat => {
-      const participantIds = chat.participants?.map(p => p.id) || [];
-      return participantIds.includes(currentUser.value.id) &&
-             participantIds.includes(friend.id) &&
-             participantIds.length === 2;
-    });
+      const participantIds = chat.participants?.map(p => p.id) || []
+      return (
+        participantIds.includes(currentUser.value.id) &&
+        participantIds.includes(friend.id) &&
+        participantIds.length === 2
+      )
+    })
 
     if (existingChat) {
-      router.push(`/chats/${existingChat.id}`);
-      return;
+      router.push(`/chats/${existingChat.id}`)
+      return
     }
 
     const payload = {
       participant_ids: [currentUser.value.id, friend.id],
       name: `${friend.name}`,
-    };
+    }
 
     const createResponse = await axios.post(`${urlValue}/chats`, payload, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-    });
+    })
 
-    console.log('Create chat response:', createResponse.data);
-
-    // Try to get chat id from known response structures
-    const newChatId = createResponse.data.id || createResponse.data.chat?.id;
+    const newChatId = createResponse.data.id || createResponse.data.chat?.id
 
     if (newChatId) {
-      router.push(`/chats/${newChatId}`);
+      router.push(`/chats/${newChatId}`)
     } else {
-      console.warn('Chat ID not found in create response. Redirecting to /chats');
-      router.push(`/chats`);
+      console.warn('Chat ID not found in create response. Redirecting to /chats')
+      router.push(`/chats`)
     }
-
   } catch (error) {
-    console.error('Failed to check or create chat:', error.response?.data || error.message);
+    console.error('Failed to check or create chat:', error.response?.data || error.message)
   }
+}
+
+const goToCreateGroup = () => {
+  router.push('/create-group')
 }
 
 onMounted(() => {
