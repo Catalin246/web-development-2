@@ -58,31 +58,31 @@ async function fetchChats() {
       headers: { Authorization: `Bearer ${token}` }
     })
 
-    chats.value = res.data.chats.map(chat => {
-      const messages = chat.messages.map(msg => ({
-        ...msg,
-        timestamp: new Date(msg.timestamp),
-        formattedTime: formatMessageTime(new Date(msg.timestamp))
-      }))
-      const unread = messages.filter(m => !m.read && m.from !== currentUser.value.id).length
+    chats.value = res.data.chats
+      .filter(chat => chat.type === 'normal')
+      .map(chat => {
+        const messages = chat.messages.map(msg => ({
+          ...msg,
+          timestamp: new Date(msg.timestamp),
+          formattedTime: formatMessageTime(new Date(msg.timestamp))
+        }))
+        const unread = messages.filter(m => !m.read && m.from !== currentUser.value.id).length
 
-      let displayName = chat.name
-      let displayAvatar = chat.avatar
+        let displayName = chat.name
+        let displayAvatar = chat.avatar
 
-      if (chat.type === 'normal') {
         const other = chat.participants.find(p => p.id !== currentUser.value.id)
         displayName = other?.name || 'Chat'
         displayAvatar = other?.avatar || null
-      }
 
-      return {
-        ...chat,
-        name: displayName,
-        avatar: displayAvatar,
-        unread,
-        messages
-      }
-    })
+        return {
+          ...chat,
+          name: displayName,
+          avatar: displayAvatar,
+          unread,
+          messages
+        }
+      })
 
     const chatIdFromUrl = route.params.chatId
     if (chatIdFromUrl) {
