@@ -1,8 +1,12 @@
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import ChatItem from '../components/ChatItem.vue'
 import ChatWindow from '../components/ChatWindow.vue'
+
+const route = useRoute()
+const router = useRouter()
 
 const selectedChat = ref(null)
 const windowWidth = ref(window.innerWidth)
@@ -17,6 +21,8 @@ function updateWidth() {
 
 function openChat(chat) {
   selectedChat.value = chat
+  // Update URL to reflect selected chatId
+  router.replace({ params: { chatId: chat.id } })
 }
 
 async function fetchCurrentUser() {
@@ -63,6 +69,15 @@ async function fetchChats() {
         messages
       }
     })
+
+    // After loading chats, check if URL has chatId param
+    const chatIdFromUrl = route.params.chatId
+    if (chatIdFromUrl) {
+      const chatToOpen = chats.value.find(c => String(c.id) === String(chatIdFromUrl))
+      if (chatToOpen) {
+        selectedChat.value = chatToOpen
+      }
+    }
   } catch (err) {
     console.error('Failed to fetch chats:', err)
   }
@@ -90,6 +105,21 @@ const calculatedChats = computed(() => {
       formattedTime: formatMessageTime(msg.timestamp)
     }))
   }))
+})
+
+// Watch route param changes to open chats accordingly
+watch(() => route.params.chatId, (newChatId) => {
+  if (newChatId) {
+    const chatToOpen = chats.value.find(c => String(c.id) === String(newChatId))
+    if (chatToOpen) {
+      selectedChat.value = chatToOpen
+    } else {
+      // Chat not found, clear selectedChat or handle error
+      selectedChat.value = null
+    }
+  } else {
+    selectedChat.value = null
+  }
 })
 
 onMounted(async () => {

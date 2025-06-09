@@ -129,6 +129,7 @@ class ChatController extends Controller
                 }, $messages);
 
                 $result[] = [
+                    'id' => $chat['id'],          // <-- Add this line to include chat id
                     'type' => $chat['type'],
                     'name' => $chat['name'],
                     'avatar' => $chat['avatar'],

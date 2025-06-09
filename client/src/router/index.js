@@ -24,7 +24,7 @@ const routes = [
     component: AppLayout,
     children: [
       { path: '', redirect: '/chats' },
-      { path: 'chats', component: ChatsView },
+      { path: 'chats/:chatId?', component: ChatsView },
       { path: 'groups', component: GroupsView },
       { path: 'profile', component: ProfileView },
       { path: 'more', component: MoreView },

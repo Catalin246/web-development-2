@@ -88,7 +88,7 @@ const startChatWith = async (friend) => {
     });
 
     if (existingChat) {
-      router.push(`/chats`)  
+      router.push(`/chats/${existingChat.id}`);
       return;
     }
 
@@ -103,7 +103,18 @@ const startChatWith = async (friend) => {
       },
     });
 
-    router.push(`/chats`) 
+    console.log('Create chat response:', createResponse.data);
+
+    // Try to get chat id from known response structures
+    const newChatId = createResponse.data.id || createResponse.data.chat?.id;
+
+    if (newChatId) {
+      router.push(`/chats/${newChatId}`);
+    } else {
+      console.warn('Chat ID not found in create response. Redirecting to /chats');
+      router.push(`/chats`);
+    }
+
   } catch (error) {
     console.error('Failed to check or create chat:', error.response?.data || error.message);
   }
