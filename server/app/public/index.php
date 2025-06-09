@@ -174,6 +174,14 @@ try {
         });
     }, ['get']);
 
+    // Ge chats for a user
+    Route::add('/chats', function () {
+        authorizeAndRun(function ($user) {
+            $controller = new ChatController();
+            $controller->getChatsForUser();
+        });
+    }, ['get']);
+
     /**
      * 404 route handler
      */

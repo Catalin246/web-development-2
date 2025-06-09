@@ -73,4 +73,17 @@ class Chat extends Model
         $stmt->execute([$id]);
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
+
+    public function getChatsForUser(int $userId)
+    {
+        $stmt = self::$pdo->prepare("
+            SELECT c.*
+            FROM chats c
+            JOIN chat_participants cp ON c.id = cp.chat_id
+            WHERE cp.user_id = ?
+            ORDER BY c.id DESC
+        ");
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

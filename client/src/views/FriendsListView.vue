@@ -66,7 +66,7 @@ const startChatWith = async (friend) => {
 
   const payload = {
     participant_ids: [currentUser.value.id, friend.id],
-    name: `Chat with ${friend.name}`,
+    name: `${friend.name}`,
   }
 
   try {

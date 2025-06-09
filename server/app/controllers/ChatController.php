@@ -97,4 +97,16 @@ class ChatController extends Controller
             ResponseService::Error('Failed to fetch chat: ' . $e->getMessage(), 500);
         }
     }
+
+    public function getChatsForUser()
+    {
+        $authenticatedUser = $this->getAuthenticatedUser();
+
+        try {
+            $chats = $this->chatModel->getChatsForUser($authenticatedUser->id);
+            ResponseService::Send(['chats' => $chats]);
+        } catch (\Exception $e) {
+            ResponseService::Error('Failed to fetch chats: ' . $e->getMessage(), 500);
+        }
+    }
 }
