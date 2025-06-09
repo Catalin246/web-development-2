@@ -78,7 +78,7 @@ async function fetchChats() {
         return {
           ...chat,
           name: chat.name,
-          avatar: chat.avatar || 'https://cdn-icons-png.flaticon.com/512/726/726623.png',
+          avatar: chat.avatar || 'https://cdn-icons-png.flaticon.com/512/921/921347.png',
           unread,
           messages
         }

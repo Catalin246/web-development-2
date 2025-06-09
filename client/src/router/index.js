@@ -12,6 +12,7 @@ import Register from '../views/Register.vue'
 import AddFriendsView from '../views/AddFriendsView.vue'
 import FriendsRequestsView from '../views/FriendsRequestsView.vue'
 import FriendsListView from '../views/FriendsListView.vue'
+import CreateGroupChat from '@/views/CreateGroupChat.vue'
 
 const routes = [
   // Public
@@ -28,11 +29,10 @@ const routes = [
       { path: 'groups', component: GroupsView },
       { path: 'profile', component: ProfileView },
       { path: 'more', component: MoreView },
-
-      // New pages
       { path: 'add-friends', component: AddFriendsView },
       { path: 'friend-requests', component: FriendsRequestsView },
-      { path: 'friends', component: FriendsListView }
+      { path: 'friends', component: FriendsListView },
+      { path: 'create-group', component: CreateGroupChat },
     ]
   }
 ]
