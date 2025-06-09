@@ -49,7 +49,7 @@ async function fetchChats() {
         timestamp: new Date(msg.timestamp),
         formattedTime: formatMessageTime(new Date(msg.timestamp))
       }))
-      const unread = messages.filter(m => !m.read).length
+      const unread = messages.filter(m => !m.read && m.from !== currentUser.value.id).length
 
       let displayName = chat.name
       let displayAvatar = chat.avatar
