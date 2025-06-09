@@ -4,7 +4,7 @@
     <img :src="avatar" alt="avatar" class="w-12 h-12 rounded-full" />
 
     <!-- Info -->
-    <div class="md:max-w-39 flex-1">
+    <div class="md:max-w-64 flex-1">
       <div class="flex justify-between">
         <span class="font-semibold">{{ truncatedName }}</span>
         <span class="text-xs text-gray-500">{{ time }}</span>
