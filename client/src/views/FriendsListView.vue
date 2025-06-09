@@ -77,9 +77,7 @@ const startChatWith = async (friend) => {
     const chats = Array.isArray(chatsResponse.data)
       ? chatsResponse.data
       : chatsResponse.data.chats || [];
-
-    console.log('Loaded chats:', chats);
-
+      
     const existingChat = chats.find(chat => {
       const participantIds = chat.participants?.map(p => p.id) || [];
       return participantIds.includes(currentUser.value.id) &&
