@@ -14,6 +14,7 @@ use App\Services\ResponseService;
 use App\Controllers\AuthController;
 use App\Controllers\FriendRequestController;
 use App\Controllers\UserSettingController;
+use App\Controllers\ChatController;
 
 // require vendor libraries
 use Steampixel\Route;
@@ -115,7 +116,6 @@ try {
      /**
      * User Settings routes (protected)
      */
-
     Route::add('/settings', function () {
         authorizeAndRun(function ($user) {
             $controller = new UserSettingController();
@@ -128,7 +128,51 @@ try {
             $controller = new UserSettingController();
             $controller->update();
         });
-    }, ['put']);                                            
+    }, ['put']);
+    
+    /**
+     * Chat routes (protected)
+     */
+
+    // Create a new chat
+    Route::add('/chats', function () {
+        authorizeAndRun(function ($user) {
+            $controller = new ChatController();
+            $controller->createChat();
+        });
+    }, ['post']);
+
+    // Send a message in a chat
+    Route::add('/chats/([0-9]+)/messages', function ($chatId) {
+        authorizeAndRun(function ($user) use ($chatId) {
+            $controller = new ChatController();
+            $controller->sendMessage($chatId);
+        });
+    }, ['post']);
+
+    // Get messages in a chat
+    Route::add('/chats/([0-9]+)/messages', function ($chatId) {
+        authorizeAndRun(function ($user) use ($chatId) {
+            $controller = new ChatController();
+            $controller->getMessages($chatId);
+        });
+    }, ['get']);
+
+    // Get participants of a chat
+    Route::add('/chats/([0-9]+)/participants', function ($chatId) {
+        authorizeAndRun(function ($user) use ($chatId) {
+            $controller = new ChatController();
+            $controller->getParticipants($chatId);
+        });
+    }, ['get']);
+
+    // Get a single chat's info
+    Route::add('/chats/([0-9]+)', function ($chatId) {
+        authorizeAndRun(function ($user) use ($chatId) {
+            $controller = new ChatController();
+            $controller->getChat($chatId);
+        });
+    }, ['get']);
 
     /**
      * 404 route handler
